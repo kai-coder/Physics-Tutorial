@@ -1,0 +1,296 @@
+*, :after, :before {
+    box-sizing: border-box;
+}
+
+body, html{
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    overflow-x: hidden;
+}
+
+body{
+    position: relative
+}
+
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
+p a{
+    font-weight: bold;
+    text-decoration: underline!important;
+}
+
+a:hover{
+    color: #FF9F1C;
+}
+
+#contentContainer{
+    width: 800px;
+    height: 100%;
+    margin: 5em auto 2em;
+    position: relative;
+    box-sizing: border-box;
+}
+
+h1, h2 {
+    text-align: center;
+    margin: 0.2em 0em;
+    line-height: 1em;
+    text-transform: uppercase;
+    font-family: Roboto, sans-serif !important;
+}
+
+h1{
+    font-size: 5em;
+}
+
+h2 {
+    font-size: 3em;
+}
+
+.sketch{
+    position: relative;
+    padding: 25%;
+    margin-bottom: 1.5em;
+    width: 100%;
+}
+
+p{
+    color: black;
+    font-size: 1em;
+    margin: 1em 0em;
+    line-height: 1.4em;
+    font-family: Roboto, sans-serif !important;
+}
+
+.style1{
+    color: #00A3A3;
+}
+
+.style2{
+    color: #43B929;
+}
+
+.style3{
+    color: #FF9F1C;
+}
+
+.style4{
+    color: #3A94C3;
+}
+
+.style5{
+    color: #2F779D;
+    font-weight: bold;
+}
+
+.style6{
+    color: #DD69DD;
+}
+
+.comment{
+    color: #7F7F7F;
+}
+
+.int{
+    color: #4e5bee;
+}
+
+.intUp{
+    color: #4e5bee;
+    vertical-align: super;
+    font-size: smaller;
+}
+
+pre{
+    border: 2px solid #B1CD79;
+    display: block;
+    background: none;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    tab-size: 4;
+    font-size: 1em;
+    line-height: 1.2em;
+    color: black;
+    margin-top: 0px;
+    background-color: rgb(244, 248, 236);
+    border-radius: 1em;
+    overflow: hidden;
+}
+.codeHolder{
+    height:auto;
+    position: relative;
+    width: 100%;
+}
+pre code{
+    scrollbar-color: #B1CD79 rgb(0, 0, 0, 0);
+    overflow-x: scroll;
+    display: block;
+    padding: 0.3em 1em 0.5em;
+    white-space: pre;
+    display: none;
+}
+
+pre code:not(:first-of-type){
+    display: none;
+}
+
+pre code:first-of-type{
+    display: block;
+}
+.codeHolder .buttonHolder button{
+    color: black;
+    word-break: break-all;
+    margin: 0px;
+    max-width: auto;
+    margin-right: -2px;
+    top:2px;
+    z-index: 100;
+    font-size: 0.8em;
+    padding: 0.5em 0.3em;
+    border: solid #B1CD79;
+    border-width: 2px 2px 0px 2px;
+    border-radius: 0.5em 0.5em 0em 0em;
+}
+
+button:not(:first-of-type){
+    background-color: #B1CD79;
+}
+
+button:first-of-type{
+    background-color: rgb(244, 248, 236);
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.codeHolder .buttonHolder{
+    display: flex;
+    position: relative;
+    left: 0.6em;
+    top:2px;
+    width: calc(100% - 1.5em);
+}
+
+pre code div {
+    display: block;
+    height: 0.5em;
+}
+
+header{
+    background-color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2em;
+    position: fixed;
+    font-weight: bold;
+    display: block;
+    box-sizing: border-box;
+    top: 0;
+    height: 3.5em;
+    padding: 1em 0.5em 0em;
+    width: 800px;
+    text-align: center;
+    z-index: 100;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+figcaption {
+    font-style: italic;
+    text-align: center;
+    font-size: 1em;
+}
+
+#title{
+    text-align: center;
+    width:80%;
+    float: left;
+    font-family: Roboto, sans-serif !important;
+}
+
+#back{
+    float:left;
+    width:10%;
+    text-align: left;
+}
+
+#next{
+    float:right;
+    width:10%;
+    text-align: right;
+}
+
+.explainContent{
+    scrollbar-color: #B1CD79 rgb(0, 0, 0, 0);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0.5em 1em;
+    top:0;
+    left:0;
+    border: 2px solid black;
+    border-radius: 1em;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+pre code::-webkit-scrollbar, .explainContent::-webkit-scrollbar{
+    width: 0.5em;
+    height: 0.5em;
+}
+
+pre code::-webkit-scrollbar-thumb, .explainContent::-webkit-scrollbar-thumb{
+    background-color: #B1CD79;
+    border-radius: 0.5em;
+}
+
+pre code::-webkit-scrollbar-track, .explainContent::-webkit-scrollbar-track{
+    background-color: rgb(0, 0, 0, 0);
+}
+
+p code{
+    border-radius: 1em;
+    border: 2px solid #B1CD79;
+    background-color: rgb(244, 248, 236);
+    width: auto;
+    height: auto;
+    color: black;
+    position: relative;
+    top:-0.1em;
+    padding: 0.1em 0.2em;
+    font-size: 1em;
+}
+
+.bigger{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 850px) {
+    #contentContainer{
+        width: 100%;
+        padding: 0em 1em;
+        margin: 0px;
+    }
+    h1{
+        font-size: 3em;
+    }
+    h2{
+        font-size: 1.5em;
+    }
+    .bigger{
+        font-size: 1em;
+    }
+    header{
+        width: 100%;
+        position: relative;
+    }
+}

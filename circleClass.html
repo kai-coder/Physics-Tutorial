@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <title>Physics Engine Tutorial</title>
+    </head>
+    <script src="p5.min.js"></script>
+    <script src="resizeFunct.js"></script>
+    <script src="drawFuncts.js"></script>
+    <script src="circleObject.js"></script>
+    <script src="circleClass.js"></script>
+    <body onresize="windowResized()" onload="enable(0)">
+        <div id = "contentContainer">
+            <header>
+                <span id="back"><a href="circle.html">←</a></span>
+                <span id="title"><a href="">CH.1 CIRCLES</a></span>
+                <span id="next"><a href="circleDetection.html">→</a></span>
+            </header>
+
+            <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
+
+            <figcaption>Use your mouse or finger to interact</figcaption>
+            <h1>CLASS</h1>
+            <p>Classes are essential in keeping the code free of clutter and easy to modify. 
+                Without them we will have to resort to creating many variables which will quickly render the code unreadable.
+            </p>
+            <p>To begin, we will have the circle class store the circle's position and radius like so:</p>
+
+            <pre><code>class circleCollider:
+    def __init__(self, x, y, radius):
+        # Store circle attributes
+        self.x = x
+        self.y = y
+        self.radius = radius</code></pre>
+
+            <p>Keep in mind that we will add more variables and functions to this class in the future when necessary.</p>
+            <p>The first function that we will add to the circle class is the draw function that we will use to visualize
+                the circle. The class should now look like this:</p>
+
+            <pre><code>class circleCollider:
+    def __init__(self, x, y, radius):
+        # Store circle attributes
+        self.x = x
+        self.y = y
+        self.radius = radius
+
+    def draw(self):
+        # Draw the circle
+        circle(self.x, self.y, self.radius * 2)</code></pre>
+
+            <p>We will now create two circles and set their position and radius.
+            </p>
+
+            <pre><code># Create two circles
+c1 = circleCollider(0, 0, 20)
+c2 = circleCollider(300, 200, 100)</code></pre>
+
+            <p>
+                Now we will set the first circle's position to the mouse position and draw the circles onto the screen, 
+                giving us our final code:
+            </p>
+            <div class="codeHolder">
+            <div class="buttonHolder">
+                <button>PhysicsEngine.py</button>
+                <button>CircleClass.py</button>
+            </div>
+            <pre><code>from CircleClass import*
+
+
+# Create two circles
+c1 = circleCollider(0, 0, 20)
+c2 = circleCollider(300, 200, 100)
+
+
+def setup():
+    size(600, 400)
+    pixelDensity(displayDensity())
+
+    strokeWeight(2)
+
+
+def draw():
+    background(200, 220, 230)
+
+    # Set one circle's position to mouse position
+    c1.x, c1.y = mouseX, mouseY
+
+    # Draw center circle
+    fill(230, 240, 225)
+    c2.draw()
+
+    # Draw circle controlled by mouse
+    fill(50, 150)
+    c1.draw()</code><code>class circleCollider:
+    def __init__(self, x, y, radius):
+        # Store circle attributes
+        self.x = x
+        self.y = y
+        self.radius = radius
+
+    def draw(self):
+        # Draw the circle
+        circle(self.x, self.y, self.radius * 2)</code></pre>
+        </div>
+    </div>
+    </body>
+    <script src="main.js"></script>
+</html>

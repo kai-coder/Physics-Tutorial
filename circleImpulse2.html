@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <title>Physics Engine Tutorial</title>
+    </head>
+    <script src="p5.min.js"></script>
+    <script src="resizeFunct.js"></script>
+    <script src="drawFuncts.js"></script>
+    <script src="circleObject.js"></script>
+    <script src="circleImpulse2.js"></script>
+    <body onresize="windowResized()" onload="enable(0)">
+        <div id = "contentContainer">
+            <header>
+                <span id="back"><a href="circleImpulse.html">←</a></span>
+                <span id="title"><a href="">CH.1 CIRCLES</a></span>
+                <span id="next"><a href="circleImpulse3.html">→</a></span>
+            </header>
+
+            <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
+    
+            <figcaption>Click or tap to interact</figcaption>
+            <h1>RESPONSE PT.2</h1>
+            <p>Now that we have an array of circles, we will update every circle each frame. We will finally get to see some
+                exciting movement!
+            </p>
+            <p>To start, we will need to add a new update function to our class so that our circles will move based off of
+                their velocity.
+            </p>
+
+            <pre><code>def update(self):
+    # Add velocity to position
+    self.x += self.velx
+    self.y += self.vely</code></pre>
+
+            <p>We will be updating our circles before we draw them. Loop through every circle and update them
+                just like we did when we looped through the circles to draw them.
+            </p>
+            <pre><code># Update every circle
+for i in circleArr:
+    i.update()</code></pre>
+            <p>You should now see ten circles darting across the screen. This is great but, nothing occurs when they collide 
+                with one another or the walls. To fix this we will be adding a <code>boundaryResponse()</code> and a 
+                <code>circleResponse()</code> function to the class.
+            </p>
+            <p>The collision part of the <code>boundaryResponse()</code> function is relatively easy to code. We just have to check if the top, right,
+                bottom, and left sides of the circle are within the boundary. It's probably easier to understand with a demonstration:
+            </p>
+            <div id="sketch1" class="sketch" ontouchstart="enable(1)" onmousemove="enable(1)"></div>
+            <p>Now that you hopefully understand how the collision detection works we can now move on to coding the actual function.
+            </p>
+            <p>When colliding with the boundary, the circle will inverse its velocity
+                and change its position to where it is inside it (also shown in the demonstration).
+            </p>
+            <p>The velocity will inverse based off a "bounciness" value called <code>self.bounce</code>.
+                Make sure to add <code>self.bounce</code> to the class and 
+                allow the class to accept input for it. This variable should usually range between 0 and 1, where 1 results in full elasticity. Anything above
+                    1 adds extra velocity that wasn't there (maybe colliding with a launch pad).</p>
+            <pre><code>def boundaryCheck(self, bx, by, bw, bh):
+    # If x coord is within bounds
+    if self.x - self.radius <= bx:
+        self.velx *= -self.bounce      # Inverse x velocity
+        self.x = bx + self.radius      # Change x coord
+    if self.x + self.radius >= bx + bw:
+        self.velx *= -self.bounce      # Inverse x velocity
+        self.x = bx + bw - self.radius # Change x coord
+    
+    # If y coord is within bounds
+    if self.y - self.radius <= by:
+        self.vely *= -self.bounce      # Inverse y velocity
+        self.y = by + self.radius      # Change y coord
+    if self.y + self.radius >= by + bh:
+        self.vely *= -self.bounce      # Inverse y velocity
+        self.y = by + bh - self.radius # Change y coord</code></pre>
+            <p>
+                We now just have to loop through every circle and run this function just like we did
+                with the update and draw functions.
+            </p>
+            <pre><code># Respond to collisions
+for i in circleArr:
+    i.boundaryResponse(0, 0, width, height)</code></pre>
+            <p>Woohoo! We did it! We now have 10 balls bouncing around the screen. That was a lot
+                to take in and this lesson is getting a bit long so we will be covering circle-circle collision
+                response in the next lesson.
+            </p>
+            <p>This is the final code:</p>
+            <div class="codeHolder">
+                <div class="buttonHolder">
+                    <button>PhysicsEngine.py</button>
+                    <button>CircleClass.py</button>
+                </div>
+                <pre><code>from CircleClass import*
+
+
+# Create array to store circles
+circleArr = []
+
+
+def setup():
+    size(600, 400)
+    pixelDensity(displayDensity())
+
+    strokeWeight(2)
+
+    for i in range(10):
+        # Set random attributes
+        x = random(width)
+        y = random(height)
+        radius = random(5, 50)
+        velx = random(-5, 5)
+        vely = random(-5, 5)
+        bounce = 1
+
+        # Append circles to array
+        circleArr.append(circleCollider(x, y, radius, velx, vely, bounce))
+
+
+def draw():
+    background(200, 220, 230)
+    
+    # Update every circle
+    for i in circleArr:
+        i.update()
+
+    # Respond to collisions
+    for i in circleArr:
+        i.boundaryCheck(0, 0, width, height)
+
+    # Draw every circle
+    fill(230, 240, 225)
+    for i in circleArr:
+        i.draw()</code><code>class circleCollider:
+    def __init__(self, x, y, radius, velx, vely):
+        # Store circle attributes
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.velx = velx
+        self.vely = vely
+        self.mass = radius
+
+    def update(self):
+        # Add velocity to position
+        self.x += self.velx
+        self.y += self.vely
+
+    def boundaryCheck(self, bx, by, bw, bh):
+        # If x coord is within bounds
+        if self.x - self.radius <= bx:
+            self.velx *= -self.bounce      # Inverse x velocity
+            self.x = bx + self.radius      # Change x coord
+        if self.x + self.radius >= bx + bw:
+            self.velx *= -self.bounce      # Inverse x velocity
+            self.x = bx + bw - self.radius # Change x coord
+        
+        # If y coord is within bounds
+        if self.y - self.radius <= by:
+            self.vely *= -self.bounce      # Inverse y velocity
+            self.y = by + self.radius      # Change y coord
+        if self.y + self.radius >= by + bh:
+            self.vely *= -self.bounce      # Inverse y velocity
+            self.y = by + bh - self.radius # Change y coord
+            
+    def draw(self):
+        # Draw the circle
+        circle(self.x, self.y, self.radius * 2)
+
+
+def dist(p1, p2):
+    # Difference between circle coords
+    dx = p1.x - p2.x
+    dy = p1.y - p2.y
+
+    # Calculate distance with Pythagorean Theorem
+    return sqrt(dx * dx + dy * dy)
+        
+        
+def circleCircle(c1, c2):
+    # Return the truth value of
+    # distance <= sum of radii
+    return dist(c1, c2) <= c1.radius + c2.radius</code></pre>
+            </div>
+        </div>
+    </body>
+    <script src="main.js"></script>
+</html>

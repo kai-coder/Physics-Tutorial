@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <title>Physics Engine Tutorial</title>
+    </head>
+    <script src="p5.min.js"></script>
+    <script src="resizeFunct.js"></script>
+    <script src="drawFuncts.js"></script>
+    <script src="circleObject.js"></script>
+    <script src="circleDetection.js"></script>
+    <body onresize="windowResized()" onload="enable(0)">
+        <div id = "contentContainer">
+            <header>
+                <span id="back"><a href="circleClass.html">←</a></span>
+                <span id="title"><a href="">CH.1 CIRCLES</a></span>
+                <span id="next"><a href="circleImpulse.html">→</a></span>
+            </header>
+
+            <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
+
+            <figcaption>Use your mouse or finger to interact</figcaption>
+            <h1>DETECTION</h1>
+            <p>The most important part of a physics engine is the ability to detect collisions. Without this, the physics
+                engine won't know when to execute certain functions and will just not work.
+            </p>
+            <p>To detect collisions between the circles, we will be using the Pythagorean Theorem.</p>
+
+            <div class="explainContent">
+                <h2>Pythagorean Theorem</h2>
+                <div id="sketch1" class="sketch" ontouchstart="enable(1)" onmousemove="enable(1)"></div>
+                <p>The Pythagorean Theorem is used to find the length of the hypotenuse, the slanted side, of a right triangle which
+                makes it perfect for finding the distance between two points. The Pythagorean Theorem states the following:</p>
+                <pre><code>a^2 + b^2 = c^2</code></pre>
+                <p>The variables <code>a</code> and <code>b</code> represent the difference
+                between the X and Y coordinates of two points and the variable <code>c</code> represents the length of the hypotenuse.</p>
+                <p>To solve for <code>c</code> we just take the square root of both sides and get this equation:</p>
+                <pre><code>sqrt(a^2 + b^2) = c</code></pre>
+                <p>Go to <a href="https://www.mathsisfun.com/pythagoras.html" target="_blank">Pythagoras' Theorem</a> for
+                further explanation and proof.</p>
+            </div>
+
+            <p>Using the Pythagorean Theorem, we can determine the distance between the two circles or any two points.
+                To turn the equation into a usable function, we would do something like this:</p>
+
+            <pre><code>def dist(p1, p2):
+    # Difference between circle coords
+    dx = p1.x - p2.x
+    dy = p1.y - p2.y
+
+    # Calculate distance with Pythagorean Theorem
+    return sqrt(dx * dx + dy * dy)</code></pre>
+                
+            <p>We can then use this function in another function to compare if the distance is less 
+                than or equal to the sum of the two radii. If it is, there is a collision.</p>
+            <pre><code>def circleCircle(c1, c2):
+    # Return the truth value of
+    # distance <= sum of radii
+    return dist(c1, c2) <= c1.radius + c2.radius</code></pre>
+
+            <p>The bit of shorthand after the return statement just returns the truth value of 
+                <code>distance <= sum of radii</code> and makes the code much more readable than if we used an <code>
+                    if-else statement</code>.
+            </p>
+            <p>
+                We can now use the <code>circleCircle()</code> function to change the color of the center circle when the two circles collide, giving us our final code:
+            </p>
+            <div class="codeHolder">
+                <div class="buttonHolder">
+                    <button>PhysicsEngine.py</button>
+                    <button>CircleClass.py</button>
+                </div>
+                <pre><code>from CircleClass import*
+
+
+# Create two circles
+c1 = circleCollider(0, 0, 20)
+c2 = circleCollider(300, 200, 100)
+
+
+def setup():
+    size(600, 400)
+    pixelDensity(displayDensity())
+
+    strokeWeight(2)
+
+
+def draw():
+    background(200, 220, 230)
+
+    # Set one circle's position to mouse position
+    c1.x, c1.y = mouseX, mouseY
+
+    # Change color if circles collide
+    if circleCircle(c1, c2):
+        fill(250, 200, 90)
+    else:
+        fill(230, 240, 225)
+
+    # Draw center circle
+    c2.draw()
+
+    # Draw circle controlled by mouse
+    fill(50, 150)
+    c1.draw()</code><code>class circleCollider:
+    def __init__(self, x, y, radius):
+        # Store circle attributes
+        self.x = x
+        self.y = y
+        self.radius = radius
+
+    def draw(self):
+        # Draw the circle
+        circle(self.x, self.y, self.radius * 2)
+
+
+def dist(p1, p2):
+    # Difference between circle coords
+    dx = p1.x - p2.x
+    dy = p1.y - p2.y
+
+    # Calculate distance with Pythagorean Theorem
+    return sqrt(dx * dx + dy * dy)
+    
+    
+def circleCircle(c1, c2):
+    # Return the truth value of
+    # distance <= sum of radii
+    return dist(c1, c2) <= c1.radius + c2.radius</code></pre>
+            </div>
+        </div>
+    </body>
+    <script src="main.js"></script>
+</html>

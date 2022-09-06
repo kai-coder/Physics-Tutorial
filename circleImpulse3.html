@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <title>Physics Engine Tutorial</title>
+    </head>
+    <script src="p5.min.js"></script>
+    <script src="resizeFunct.js"></script>
+    <script src="drawFuncts.js"></script>
+    <script src="circleObject.js"></script>
+    <script src="circleImpulse3.js"></script>
+    <body onresize="windowResized()" onload="enable(0)">
+        <div id = "contentContainer">
+            <header>
+                <span id="back"><a href="circleImpulse2.html">←</a></span>
+                <span id="title"><a href="">CH.1 CIRCLES</a></span>
+                <span id="next"><a href="circleImpulse4.html">→</a></span>
+            </header>
+
+            <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
+    
+            <figcaption>Click or tap to interact</figcaption>
+            <h1>RESPONSE PT.3</h1>
+            <p>Now that we have the circles bouncing off walls, we make it so that 
+                the circles interact with one another as well. To do this we will need to update 
+                the position of the circles when they collide with one another and calculate their new velocity.
+                This lesson is harder than others, and therefore longer, but I have broken it down a lot so it
+                shouldn't cause too much trouble. Also it's really worth it!
+            </p>
+            <p>
+                To begin, we will create the <code>circleResponse()</code> function inside the class that accepts one circle as an input.
+                We will also use our <code>circleCircle()</code> function to check if the circles are colliding.
+            </p>
+
+            <pre><code>def circleResponse(self, c2):
+    # If circles collided
+    if circleCircle(self, c2):</code></pre>
+            <p>If they are colliding, we need to calculate the change in velocity on collision.
+            </p>
+            <p>To begin, we need to determine the direction of the collision normal vector. 
+                A normal vector is basically a vector with a length of one and 
+                is useful in many ways. Just in this lesson we will use it twice!</p>
+            <p>To get the normal vector, we will make use of the Pythagorean Theorem again like so:</p>
+            <pre><code>1. a^2 + b^2 = c^2
+2. sqrt(a^2 + b^2) = sqrt(c^2)
+3. sqrt(a^2 + b^2) / c = c / c
+4. sqrt(a^2 / c^2 + b^2 / c^2) = 1
+5. sqrt((a / c)^2 + (b / c)^2) = 1</code></pre>
+            <p>As you can see by dividing the X and Y coordinates of the vector (<code>a</code> and <code>b</code> in the equation) the 
+            length of the vector is one. In this case, the vector represents the distance between the 
+            first and second circle.</p>
+            <p>So to get the normal vector we just need get the difference between the X and Y coordinates to get
+                the direction of the collision and divide it by
+                the distance between the circles to get the normal like so:</p>
+                <pre><code># Direction of collision
+dx = c2.x - self.x
+dy = c2.y - self.y
+
+# Distance between circles
+circleDist = dist(self, c2)
+
+# Direction of collision normal
+nx = dx / circleDist
+ny = dy / circleDist</code></pre>
+            <p>Next, we need to get the difference between the circles' velocities so that circles
+                moving at 1px/s and 2px/s react the same way to each other
+                 as circles that are moving at 1001px/s
+                and 1002px/s. By calculating the difference between the velocities, those two cases
+                will both return as 1. That can be easily done like this:
+            </p>
+            <pre><code># Difference between velocities
+vx = self.velx - c2.velx
+vy = self.vely - c2.vely</code></pre>
+            <p>Okay, this is where it gets a little difficult. We are now going to use the dot product
+                to take the vector of the difference between the velocities and see how much of it is
+                in the direction of the position normal.
+            </p>
+            <div class="explainContent">
+                <h2>Dot Product</h2>
+                <div id="sketch1" class="sketch" ontouchstart="enable(1)" onmousemove="enable(1)"></div>
+                <p>The dot product is used to see how much of a vector is in the direction of another vector 
+                    (known as the scalar product) and its just one simple equation:</p>
+                <pre><code>a.x * b.x + a.y * b.y = |a| * |b| * cos(θ)</code></pre>
+                <p>I know that looks quite scary, so let's break it down. The symbol <code>θ</code> is just the angle between the two
+                    vectors. Also, <code>|a|</code> just means the length of vector <code>a</code> (if you thought it was absolute value you're not 
+                    alone).
+                </p>
+                <p>So how does this equation tell us the information we need?</p>
+                <p>Before we get into that, let's substitute <code>a</code> for the difference between the
+                    velocities (shown in dark purple) and <code>b</code> as the direction of the 
+                    collision normal (the short yellow vector). Because vector <code>b</code>
+                    is normalized, meaning it has the length of 1, we can just remove <code>|b|</code> 
+                    from the right side of the equation because it has absolutely no effect on the product. 
+                    So now the equation looks more like this:
+                </p>
+                <pre><code>a.x * b.x + a.y * b.y = |a| * cos(θ)</code></pre>
+                <p>If you look at the demonstration, you can see that if we drew a line between the dot product 
+                    and the velocity difference, it forms a right triangle. You will also notice that the
+                    velocity difference is the hypotenuse of that right triangle. 
+                </p>
+                <p>For those who don't know <code>cos(θ)</code> in a right triangle equals the length of the
+                   side (that is not the hypotenuse) next to the angle <code>θ</code>, known as adjacent, 
+                   divided by the length of the hypotenuse. Go to
+                   <a href="https://www.mathsisfun.com/definitions/cosine.html#:~:text=more%20...,(%CE%B8)%20%3D%20adjacent%20%2F%20hypotenuse" target="_blank">cosine rule</a>
+                   for further explanation.
+            </p>
+                <p>Now by looking at the demonstration, you can also see that the scalar product is the adjacent
+                    side of the angle <code>θ</code>. You can now probably see where this is going. Since
+                    the equation of <code>cos(θ)</code> is <code>adjacent / hypotenuse</code> or in our case
+                    <code>scalar / |a|</code>, if we multiply <code>|a|</code> by <code>cos(θ)</code>, we will
+                    get the scalar product.
+                </p>
+                <p>This scalar product is useful because when scaling (thats why
+                    scalar sounds like scale) the normal by the scalar, it results in a vector that is in the
+                    direction that we need to change the velocity in.
+                </p>
+            </div>
+            <p>Okay, now we can finally get back to the code.</p>
+            <p>So the next thing we will be doing is getting the dot product and multiplying it by 
+                <code>-(1 + self.bounce)</code> 
+                to determine the total velocity of the collision.
+            </p>
+            <pre><code># Calculate total velocity
+vTotal = -(1 + self.bounce) * (vx * nx + vy * ny)</code></pre>
+            <p>We are adding 1 to <code>self.bounce</code> because the collision response wouldn't make sense
+                if we didn't.
+                For example say <code>self.bounce</code> equals 0 and 1 isn't added to it.
+                The total velocity would equal 0, the velocities would not change on collision, 
+                and the circles will just pass right
+                through each other.</p>
+            <p>Next, we need to affect the collided circles' original velocities based off of the total
+                collision velocity. To do this we will be multiplying the collision normal by the total 
+                collision velocity and have it affect the circles' velocities like so:</p>
+            <pre><code># Add total velocity along collision normal
+self.velx += nx * vTotal
+self.vely += ny * vTotal
+c2.velx -= nx * vTotal
+c2.vely -= ny * vTotal</code></pre>
+                <p>Finally we need to incorporate the mass into the calculation so that heavier objects will be 
+                    affected less by the collision than lighter ones. We will be dividing the other circles
+                    mass by the total mass to get the percentage of the total velocity that the circle should 
+                    be affected by.
+                </p>
+                <p>We then just multiply the the total velocity by it before affecting the velocities and 
+                    we have this:
+                </p>
+                <pre><code># Add percentage of total velocity along collision normal
+self.velx += nx * vTotal * (c2.mass / (self.mass + c2.mass))
+self.vely += ny * vTotal * (c2.mass / (self.mass + c2.mass))
+c2.velx -= nx * vTotal * (self.mass / (self.mass + c2.mass))
+c2.vely -= ny * vTotal * (self.mass / (self.mass + c2.mass))</code></pre>
+                <p>Now, all we have to do is run this function in the <code>draw()</code> function. Under
+                where we put the <code>boundaryCheck()</code> function, we will have another for loop check
+                every other circle. We also have to change the for loop a little too like so:</p>
+<pre><code># Respond to collisions
+for i in range(len(circleArr)):
+    circleArr[i].boundaryCheck(0, 0, width, height)
+
+    # Check every other circle
+    for j in range(i + 1, len(circleArr)):
+        circleArr[i].circleResponse(circleArr[j])
+    </code></pre> 
+            <p>This method of checking for circle collision reduces the amount of checks required by half.</p>
+            <p>You might have notices that the result don't match the demonstration at the top, 
+                but this was a REALLY hard and long
+                lesson so we will fix that in the next lesson (which is much easier by the way).
+            </p>
+            <p>Anyways, here's the final code:</p>
+            <div class="codeHolder">
+                <div class="buttonHolder">
+                    <button>PhysicsEngine.py</button>
+                    <button>CircleClass.py</button>
+                </div>
+                <pre><code>from CircleClass import*
+
+
+# Create array to store circles
+circleArr = []
+
+
+def setup():
+    size(600, 400)
+    pixelDensity(displayDensity())
+
+    strokeWeight(2)
+
+    for i in range(10):
+        # Set random attributes
+        x = random(width)
+        y = random(height)
+        radius = random(5, 50)
+        velx = random(-5, 5)
+        vely = random(-5, 5)
+        bounce = 1
+
+        # Append circles to array
+        circleArr.append(circleCollider(x, y, radius, velx, vely, bounce))
+
+
+def draw():
+    background(200, 220, 230)
+    
+    # Update every circle
+    for i in circleArr:
+        i.update()
+
+    # Respond to collisions
+    for i in range(len(circleArr)):
+        circleArr[i].boundaryCheck(0, 0, width, height)
+    
+        # Check every other circle
+        for j in range(i + 1, len(circleArr)):
+            circleArr[i].circleResponse(circleArr[j])
+
+    # Draw every circle
+    fill(230, 240, 225)
+    for i in circleArr:
+        i.draw()</code><code>class circleCollider:
+    def __init__(self, x, y, radius, velx, vely, bounce):
+        # Store circle attributes
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.velx = velx
+        self.vely = vely
+        self.mass = radius
+        self.bounce = bounce
+
+    def update(self):
+        # Add velocity to position
+        self.x += self.velx
+        self.y += self.vely
+
+    def boundaryCheck(self, bx, by, bw, bh):
+        # If x coord is within bounds
+        if self.x - self.radius <= bx:
+            self.velx *= -self.bounce      # Inverse x velocity
+            self.x = bx + self.radius      # Change x coord
+        if self.x + self.radius >= bx + bw:
+            self.velx *= -self.bounce      # Inverse x velocity
+            self.x = bx + bw - self.radius # Change x coord
+        
+        # If y coord is within bounds
+        if self.y - self.radius <= by:
+            self.vely *= -self.bounce      # Inverse y velocity
+            self.y = by + self.radius      # Change y coord
+        if self.y + self.radius >= by + bh:
+            self.vely *= -self.bounce      # Inverse y velocity
+            self.y = by + bh - self.radius # Change y coord
+    
+    def circleResponse(self, c2):
+        # If circles collided
+        if circleCircle(self, c2):
+            # Direction of collision
+            dx = c2.x - self.x
+            dy = c2.y - self.y
+            
+            # Distance between circles
+            circleDist = dist(self, c2)
+            
+            # Direction of collision normal
+            nx = dx / circleDist
+            ny = dy / circleDist
+
+            # Difference between velocities
+            vx = self.velx - c2.velx
+            vy = self.vely - c2.vely
+
+            # Calculate total velocity
+            vTotal = -(1 + self.bounce) * (vx * nx + vy * ny)
+
+            # Add percentage of total velocity along collision normal
+            self.velx += nx * vTotal * (c2.mass / (self.mass + c2.mass))
+            self.vely += ny * vTotal * (c2.mass / (self.mass + c2.mass))
+            c2.velx -= nx * vTotal * (self.mass / (self.mass + c2.mass))
+            c2.vely -= ny * vTotal * (self.mass / (self.mass + c2.mass))
+
+    def draw(self):
+        # Draw the circle
+        circle(self.x, self.y, self.radius * 2)
+
+
+def dist(p1, p2):
+    # Difference between circle coords
+    dx = p1.x - p2.x
+    dy = p1.y - p2.y
+
+    # Calculate distance with Pythagorean Theorem
+    return sqrt(dx * dx + dy * dy)
+            
+            
+def circleCircle(c1, c2):
+    # Return the truth value of
+    # distance <= sum of radii
+    return dist(c1, c2) <= c1.radius + c2.radius</code></pre>
+            </div>
+        </div>
+    </body>
+    <script src="main.js"></script>
+</html>

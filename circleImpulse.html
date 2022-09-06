@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <title>Physics Engine Tutorial</title>
+    </head>
+    <script src="p5.min.js"></script>
+    <script src="resizeFunct.js"></script>
+    <script src="drawFuncts.js"></script>
+    <script src="circleObject.js"></script>
+    <script src="circleImpulse.js"></script>
+    <body onresize="windowResized()" onload="enable(0)">
+        <div id = "contentContainer">
+            <header>
+                <span id="back"><a href="circleDetection.html">←</a></span>
+                <span id="title"><a href="">CH.1 CIRCLES</a></span>
+                <span id="next"><a href="circleImpulse2.html">→</a></span>
+            </header>
+
+            <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
+    
+            <figcaption>Click or tap to interact</figcaption>
+            <h1>RESPONSE PT.1</h1>
+            <p>Now that we are able to detect collisions between circles, we now have to calculate how each
+            circle will respond to the collision. This is where things start to become really fun and interesting.
+            This lesson is also going to be quite complex so it will be split into XXX parts.
+            </p>
+            <p>To begin, we will add three extra variables to the circle class that will store the circle's velocity
+                and mass. We are going to set the mass as the radius of the circle for now.
+            </p>
+
+            <pre><code>self.velx = velx
+self.vely = vely
+self.mass = radius</code></pre>
+
+            <p>This is important because we need to know the velocity of each circle to know how other circles should
+                react to it. Also remember that the circle class needs to be able to accept two extra inputs
+                of velx and vely so remember to add that.
+            </p>
+            <p>We are also going to make an array to store all the circles so we can have some <strong>CIRCLE MADNESS</strong>!</p>
+            <p>To begin, we will delete the variables that currently store the two circles and replace
+                them with an array.
+            </p>
+            <pre><code># Create array to store circles
+circleArr = []</code></pre>
+
+            <p>Next, in the <code>setup()</code> function we will append 10 circles to the array and assign random attributes
+                to them.
+            </p>
+            <pre><code>for i in range(10):
+    # Set random attributes
+    x = random(width)
+    y = random(height)
+    radius = random(5, 50)
+    velx = random(-5, 5)
+    vely = random(-5, 5)
+
+    # Append circle to array
+    circleArr.append(circleCollider(x, y, radius, velx, vely))</code></pre>
+            <p>
+                If you did this, you probably received an undefined variable error and that is because we need to 
+                modify the contents of the <code>draw()</code> function.
+            </p>
+            <p>
+                Instead of referencing each circle through variables, we can draw all the circles at once
+                by using a for loop like so:
+            </p>
+            <pre><code># Draw every circle
+for i in circleArr:
+    i.draw()</code></pre>
+            <p>
+                Your code should now look like this:
+            </p>
+            <div class="codeHolder">
+                <div class="buttonHolder">
+                    <button>PhysicsEngine.py</button>
+                    <button>CircleClass.py</button>
+                </div>
+                <pre><code>from CircleClass import*
+
+
+# Create array to store circles
+circleArr = []
+
+
+def setup():
+    size(600, 400)
+    pixelDensity(displayDensity())
+
+    strokeWeight(2)
+
+    for i in range(10):
+        # Set random attributes
+        x = random(width)
+        y = random(height)
+        radius = random(5, 50)
+        velx = random(-5, 5)
+        vely = random(-5, 5)
+
+        # Append circle to array
+        circleArr.append(circleCollider(x, y, radius, velx, vely))
+
+
+def draw():
+    background(200, 220, 230)
+
+    # Draw every circle
+    fill(230, 240, 225)
+    for i in circleArr:
+        i.draw()</code><code>class circleCollider:
+    def __init__(self, x, y, radius, velx, vely):
+        # Store circle attributes
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.velx = velx
+        self.vely = vely
+        self.mass = radius
+
+    def draw(self):
+        # Draw the circle
+        circle(self.x, self.y, self.radius * 2)
+
+
+def dist(p1, p2):
+    # Difference between circle coords
+    dx = p1.x - p2.x
+    dy = p1.y - p2.y
+
+    # Calculate distance with Pythagorean Theorem
+    return sqrt(dx * dx + dy * dy)
+
+
+def circleCircle(c1, c2):
+    # Return the truth value of
+    # distance <= sum of radii
+    return dist(c1, c2) <= c1.radius + c2.radius</code></pre>
+            </div>
+        </div>
+    </body>
+    <script src="main.js"></script>
+</html>
