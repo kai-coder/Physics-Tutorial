@@ -15,6 +15,23 @@
     <script src="circleClass.js"></script>
     <body onresize="windowResized()" onload="enable(0)">
         <div id = "contentContainer">
+            <div id="iconHold">
+                <image id="icon" src="icon.png"></image>
+                <div>Hammond Kai</div>
+            </div>
+            <button id="tableButton">≡ TABLE OF CONTENTS</button>
+            <div id="tableContents">
+                <a href="intro.html"><button>Intro</button></a>
+                <a href="circle.html"><button>Circles</button></a>
+                <span>
+                    <a href="circleClass.html"><button>Class</button></a>
+                    <a href="circleDetection.html"><button>Detection</button></a>
+                    <a href="circleImpulse.html"><button>Response Pt.1</button></a>
+                    <a href="circleImpulse2.html"><button>Response Pt.2</button></a>
+                    <a href="circleImpulse3.html"><button>Response Pt.3</button></a>
+                    <a href="circleImpulse4.html"><button>Response Pt.4</button></a>
+                </span>
+            </div>
             <header>
                 <span id="back"><a href="circle.html">←</a></span>
                 <span id="title"><a href="">CH.1 CIRCLES</a></span>
@@ -31,26 +48,26 @@
             <p>To begin, we will have the circle class store the circle's position and radius like so:</p>
 
             <pre><code>class circleCollider:
-    def __init__(self, x, y, radius):
+    def __init__(self, x, y, r):
         # Store circle attributes
         self.x = x
         self.y = y
-        self.radius = radius</code></pre>
+        self.r = r</code></pre>
 
             <p>Keep in mind that we will add more variables and functions to this class in the future when necessary.</p>
             <p>The first function that we will add to the circle class is the draw function that we will use to visualize
                 the circle. The class should now look like this:</p>
 
             <pre><code>class circleCollider:
-    def __init__(self, x, y, radius):
+    def __init__(self, x, y, r):
         # Store circle attributes
         self.x = x
         self.y = y
-        self.radius = radius
+        self.r = r
 
     def draw(self):
         # Draw the circle
-        circle(self.x, self.y, self.radius * 2)</code></pre>
+        circle(self.x, self.y, self.r * 2)</code></pre>
 
             <p>We will now create two circles and set their position and radius.
             </p>
@@ -96,15 +113,15 @@ def draw():
     # Draw circle controlled by mouse
     fill(50, 150)
     c1.draw()</code><code>class circleCollider:
-    def __init__(self, x, y, radius):
+    def __init__(self, x, y, r):
         # Store circle attributes
         self.x = x
         self.y = y
-        self.radius = radius
+        self.r = r
 
     def draw(self):
         # Draw the circle
-        circle(self.x, self.y, self.radius * 2)</code></pre>
+        circle(self.x, self.y, self.r * 2)</code></pre>
         </div>
     </div>
     </body>

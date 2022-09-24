@@ -1,0 +1,119 @@
+#icon{
+    height: 60px;
+    padding: 0.1em 10px 0.1em 5px;
+    float: left;
+}
+#iconHold{
+    background-color: white;
+    font-size: 2em;
+    width: 100%;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 0.1em 0px;
+    float: left;
+}
+#menuBar{
+    width: calc((100% - 800px) / 2);
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    box-shadow: 2px 0 10px rgb(50, 50, 50);
+}
+#iconHold div{
+    float: left;
+    padding-right: 10px;
+}
+#buttons{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    z-index: 0;
+    box-sizing: border-box;
+    transform: translateY(-50%);
+}
+#menuBar button{
+    border: 2px solid black;
+    width: 100%;
+    background-color: white;
+    border: none;
+    font-size: 2em;
+    height: 2em;
+    display: block;
+}
+#menuBar button:focus{
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+#menuBar button:focus-visible{
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+@media only screen and (max-width: 1500px) {
+    #menuBar{
+        height: 64px;
+        width: 100%;
+    }
+    #menuBar button{
+        display: inline;
+        width: calc(100% / 3);
+        height: 100%;
+        float:left;
+    }
+    #menuBar button:focus{
+        border: none;
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+    }
+    #menuBar button:focus-visible{
+        border: none;
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+    }
+    #buttons{
+        position: relative;
+        width: calc(100% - 221px);
+        height: 100%;
+        right: 0;
+        float: right;
+        top: 0;
+        transform: none;
+        display: inline-block;
+    }
+    #iconHold{
+        font-size: 1.5em;
+        width: auto;
+        height: 64px;
+        display: flex;
+        position: fixed;
+        left: 0;
+        padding: 0;
+        align-items: center;
+    }
+    #icon{
+        height: 50px;
+    }
+}
+
+@media only screen and (max-width: 850px) {
+    #menuBar{
+        box-shadow: none;
+    }
+    #iconHold{
+        justify-content: center;
+        box-shadow: 0px 2px 10px rgb(50, 50, 50);
+        width: 100%;
+    }
+    #buttons{
+        box-shadow: 0px 2px 10px rgb(50, 50, 50);
+        width: 100%;
+        display: absolute;
+        top: 64px;
+        font-size: 0.5em;
+    }
+}

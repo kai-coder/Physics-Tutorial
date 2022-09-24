@@ -15,6 +15,23 @@
     <script src="circleImpulse4.js"></script>
     <body onresize="windowResized()" onload="enable(0)">
         <div id = "contentContainer">
+            <div id="iconHold">
+                <image id="icon" src="icon.png"></image>
+                <div>Hammond Kai</div>
+            </div>
+            <button id="tableButton">≡ TABLE OF CONTENTS</button>
+            <div id="tableContents">
+                <a href="intro.html"><button>Intro</button></a>
+                <a href="circle.html"><button>Circles</button></a>
+                <span>
+                    <a href="circleClass.html"><button>Class</button></a>
+                    <a href="circleDetection.html"><button>Detection</button></a>
+                    <a href="circleImpulse.html"><button>Response Pt.1</button></a>
+                    <a href="circleImpulse2.html"><button>Response Pt.2</button></a>
+                    <a href="circleImpulse3.html"><button>Response Pt.3</button></a>
+                    <a href="circleImpulse4.html"><button>Response Pt.4</button></a>
+                </span>
+            </div>
             <header>
                 <span id="back"><a href="circleImpulse3.html">←</a></span>
                 <span id="title"><a href="">CH.1 CIRCLES</a></span>
@@ -25,109 +42,45 @@
     
             <figcaption>Click or tap to interact</figcaption>
             <h1>RESPONSE PT.4</h1>
-            <p>Now that we have the circles bouncing off walls, we make it so that 
-                the circles interact with one another as well. To do this we will need to update 
-                the position of the circles when they collide with one another and calculate their new velocity.
-                This lesson is harder than others, and therefore longer, but I have broken it down a lot so it
-                shouldn't cause too much trouble. Also it's really worth it!
+            <p>Finally, now that we have the circles reacting to each other, we need to update the positions 
+                of the circles on collision to fix the annoying little bug where the
+                circles seem to interlock with each other. We can also add some good old gravity into the mix. 
+                It's going to start to really look like a physics 
+                engine!
             </p>
             <p>
-                To begin, we will create the <code>circleResponse()</code> function inside the class that accepts one circle as an input.
-                We will also use our <code>circleCircle()</code> function to check if the circles are colliding.
+                To begin, let's fix our little annoying bug. To do this we will begin by seeing how much the 
+                circles are penetrating into each other. We will achieve that by subtracting the total radius 
+                of the two circles by the distance between them.
             </p>
 
-            <pre><code>def circleResponse(self, c2):
-    # If circles collided
-    if circleCircle(self, c2):</code></pre>
-            <p>If they are colliding, we need to calculate the change in velocity on collision.
+            <pre><code># How much circles penetrate each other
+px = self.r + c2.r - circleDist
+py = self.r + c2.r - circleDist</code></pre>
+            <p>Now, to calculate how much we should move each circle, we will just divide that number by two.
             </p>
-            <p>To begin, we need to determine the direction of the collision normal vector. 
-                A normal vector is basically a vector with a length of one and 
-                is useful in many ways. Just in this lesson we will use it twice!</p>
-            <p>To get the normal vector, we will make use of the Pythagorean Theorem again like so:</p>
-            <pre><code>1. a^2 + b^2 = c^2
-2. sqrt(a^2 + b^2) = sqrt(c^2)
-3. sqrt(a^2 + b^2) / c = c / c
-4. sqrt(a^2 / c^2 + b^2 / c^2) = 1
-5. sqrt((a / c)^2 + (b / c)^2) = 1</code></pre>
-            <p>As you can see by dividing the X and Y coordinates of the vector (<code>a</code> and <code>b</code> in the equation) the 
-            length of the vector is one. In this case, the vector represents the distance between the 
-            first and second circle.</p>
-            <p>So to get the normal vector we just need get the difference between the X and Y coordinates to get
-                the direction of the collision and divide it by
-                the distance between the circles to get the normal like so:</p>
-                <pre><code># Direction of collision
-dx = c2.x - self.x
-dy = c2.y - self.y
-
-# Distance between circles
-circleDist = dist(self, c2)
-
-# Direction of collision normal
-nx = dx / circleDist
-ny = dy / circleDist</code></pre>
-            <p>Next, we need to get the difference between the circles' velocities so that circles
-                moving at 1px/s and 2px/s react the same way to each other
-                 as circles that are moving at 1001px/s
-                and 1002px/s. By calculating the difference between the velocities, those two cases
-                will both return as 1. That can be easily done like this:
+            <pre><code># How much circles should move
+mx = px / 2
+my = py / 2</code></pre>
+            <p>Now, just as we did when we added the velocities to the circles, we will now just multiply that
+                resulting number by the normal and move the circles in opposite directions.
             </p>
-            <pre><code># Difference between velocities
-vx = self.velx - c2.velx
-vy = self.vely - c2.vely</code></pre>
-            <p>Okay, this is where it gets a little difficult. We are now going to use the dot product
-                to take the vector of the difference between the velocities and see how much of it is
-                in the direction of the position normal.
+                <pre><code># Move circles
+self.x -= nx * mx
+self.y -= ny * mx
+c2.x += nx * mx
+c2.y += ny * mx</code></pre>
+            <p>Your circles should now be bouncing around flawlessly. Let's add some gravity now to really get
+                a feel of a physics engine.
             </p>
-            
-            <p>Okay, now we can finally get back to the code.</p>
-            <p>So the next thing we will be doing is getting the dot product and multiplying it by the 
-                "bounciness" of the circle to determine the total velocity of the collision. 
-                Make sure to add <code>self.bounce</code> to the class and 
-                allow the class to accept input for it.
+            <p>The only thing we have to do to add some gravity is to add a number to the y-velocity before
+                we update the circle position.
             </p>
-            <pre><code># Calculate total velocity
-vTotal = -(1 + self.bounce) * (vx * nx + vy * ny)</code></pre>
-        <p>The <code>self.bounce</code> variable should usually range between 0 and 1 where 1 results in full elasticity. Anything above
-            1 adds extra velocity that wasn't there (maybe colliding with a launch pad).</p>
-            <p>Next, we need to affect the collided circles' original velocities based off of the total
-                collision velocity. To do this we will be multiplying the collision normal by the total 
-                collision velocity and have it affect the circles' velocities like so:</p>
-            <pre><code># Add total velocity along collision normal
-self.velx += nx * vTotal
-self.vely += ny * vTotal
-c2.velx -= nx * vTotal
-c2.vely -= ny * vTotal</code></pre>
-                <p>Finally we need to incorporate the mass into the calculation so that heavier objects will be 
-                    affected less by the collision than lighter ones. We will be dividing the other circles
-                    mass by the total mass to get the percentage of the total velocity that the circle should 
-                    be affected by.
-                </p>
-                <p>We then just multiply the the total velocity by it before affecting the velocities and 
-                    we have this:
-                </p>
-                <pre><code># Add percentage of total velocity along collision normal
-self.velx += nx * vTotal * (c2.mass / (self.mass + c2.mass))
-self.vely += ny * vTotal * (c2.mass / (self.mass + c2.mass))
-c2.velx -= nx * vTotal * (self.mass / (self.mass + c2.mass))
-c2.vely -= ny * vTotal * (self.mass / (self.mass + c2.mass))</code></pre>
-                <p>Now, all we have to do is run this function in the <code>draw()</code> function. Under
-                where we put the <code>boundaryCheck()</code> function, we will have another for loop check
-                every other circle. We also have to change the for loop a little too like so:</p>
-<pre><code># Respond to collisions
-for i in range(len(circleArr)):
-    circleArr[i].boundaryCheck(0, 0, width, height)
-
-    # Check every other circle
-    for j in range(i + 1, len(circleArr)):
-        circleArr[i].circleResponse(circleArr[j])
-    </code></pre> 
-            <p>This method of checking for circle collision reduces the amount of checks required by half.</p>
-            <p>You might have notices that the result don't match the demonstration at the top, 
-                but this was a REALLY hard and long
-                lesson so we will fix that in the next lesson (which is much easier by the way).
-            </p>
-            <p>Anyways, here's the final code:</p>
+            <pre><code># Add gravity
+self.vely += 0.2</code></pre>
+            <p>Also change bounce to something like <code>0.8</code> to make it a little more
+            realistic.</p>
+            <p>And that's all there is. Super easy lesson. Here's the final code:</p>
             <div class="codeHolder">
                 <div class="buttonHolder">
                     <button>PhysicsEngine.py</button>
@@ -150,13 +103,13 @@ def setup():
         # Set random attributes
         x = random(width)
         y = random(height)
-        radius = random(5, 50)
+        r = random(5, 50)
         velx = random(-5, 5)
         vely = random(-5, 5)
-        bounce = 1
+        bounce = 0.95
 
         # Append circles to array
-        circleArr.append(circleCollider(x, y, radius, velx, vely, bounce))
+        circleArr.append(circleCollider(x, y, r, velx, vely, bounce))
 
 
 def draw():
@@ -168,7 +121,7 @@ def draw():
 
     # Respond to collisions
     for i in range(len(circleArr)):
-        circleArr[i].boundaryCheck(0, 0, width, height)
+        circleArr[i].boundResponse(0, 0, width, height)
     
         # Check every other circle
         for j in range(i + 1, len(circleArr)):
@@ -178,37 +131,40 @@ def draw():
     fill(230, 240, 225)
     for i in circleArr:
         i.draw()</code><code>class circleCollider:
-    def __init__(self, x, y, radius, velx, vely, bounce):
+    def __init__(self, x, y, r, velx, vely, bounce):
         # Store circle attributes
         self.x = x
         self.y = y
-        self.radius = radius
+        self.r = r
         self.velx = velx
         self.vely = vely
-        self.mass = radius
+        self.mass = r
         self.bounce = bounce
 
     def update(self):
+        # Add gravity
+        self.vely += 0.2
+
         # Add velocity to position
         self.x += self.velx
         self.y += self.vely
 
-    def boundaryCheck(self, bx, by, bw, bh):
+    def boundResponse(self, bx, by, bw, bh):
         # If x coord is within bounds
-        if self.x - self.radius <= bx:
+        if self.x - self.r <= bx:
             self.velx *= -self.bounce      # Inverse x velocity
-            self.x = bx + self.radius      # Change x coord
-        if self.x + self.radius >= bx + bw:
+            self.x = bx + self.r      # Change x coord
+        if self.x + self.r >= bx + bw:
             self.velx *= -self.bounce      # Inverse x velocity
-            self.x = bx + bw - self.radius # Change x coord
+            self.x = bx + bw - self.r # Change x coord
         
         # If y coord is within bounds
-        if self.y - self.radius <= by:
+        if self.y - self.r <= by:
             self.vely *= -self.bounce      # Inverse y velocity
-            self.y = by + self.radius      # Change y coord
-        if self.y + self.radius >= by + bh:
+            self.y = by + self.r      # Change y coord
+        if self.y + self.r >= by + bh:
             self.vely *= -self.bounce      # Inverse y velocity
-            self.y = by + bh - self.radius # Change y coord
+            self.y = by + bh - self.r # Change y coord
     
     def circleResponse(self, c2):
         # If circles collided
@@ -237,9 +193,24 @@ def draw():
             c2.velx -= nx * vTotal * (self.mass / (self.mass + c2.mass))
             c2.vely -= ny * vTotal * (self.mass / (self.mass + c2.mass))
 
+            # How much circles penetrate each other
+            px = self.r + c2.r - circleDist
+            py = self.r + c2.r - circleDist
+
+            # How much circles should move
+            mx = px / 2
+            my = py / 2
+
+            # Move circles
+            self.x -= nx * mx
+            self.y -= ny * mx
+            c2.x += nx * mx
+            c2.y += ny * mx
+
+
     def draw(self):
         # Draw the circle
-        circle(self.x, self.y, self.radius * 2)
+        circle(self.x, self.y, self.r * 2)
 
 
 def dist(p1, p2):
@@ -254,7 +225,7 @@ def dist(p1, p2):
 def circleCircle(c1, c2):
     # Return the truth value of
     # distance <= sum of radii
-    return dist(c1, c2) <= c1.radius + c2.radius</code></pre>
+    return dist(c1, c2) <= c1.r + c2.r</code></pre>
             </div>
         </div>
     </body>

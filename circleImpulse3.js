@@ -33,7 +33,7 @@ sketches.push(new p5(function( s ) {
         for (i = 0; i < circArray.length; i++){
             circArray[i].update(0)
         }
-        for (l = 0; l < 1; l++){
+        for (l = 0; l < 3; l++){
             for (i = 0; i < circArray.length; i++){
                 circArray[i].boundaryCheck(0, 0, 800, 400)
                 for (j = i + 1; j < circArray.length; j++){

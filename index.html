@@ -1,110 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
-    <link href="main.css" rel="stylesheet" type="text/css" />
-    <title>Physics Engine Tutorial</title>
-  </head>
-  <script src="p5.min.js"></script>
+    <head>
+        <meta charset="utf-8">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
+        <link href="index.css" rel="stylesheet" type="text/css" />
+        <title>Physics Engine Tutorial</title>
+    </head>
+    <script src="p5.min.js"></script>
     <script src="resizeFunct.js"></script>
     <script src="drawFuncts.js"></script>
     <script src="circleObject.js"></script>
-  <script src="intro.js"></script>
-  <body onresize="windowResized()" onload="enable(0)">
-    <div id = "contentContainer">
-      <header>
-        <span id="back"><a href="">←</a></span>
-        <span id="title"><a href="">INTRO</a></span>
-        <span id="next"><a href="circle.html">→</a></span>
-      </header>
-      <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
-      <figcaption>Use your mouse or finger to interact</figcaption>
-      <h1>INTRO</h1>
-      <p>In this tutorial, we will cover everything you need to know to create a working physics engine. Physics engines are essential for practically everything that occurs online.
-      </p>
-      <p>To begin, we will have the circle class store the circle's position and radius like so:</p>
-      <pre><code>
-        class circleCollider:
-          ~def __init__(self, pos, radius):
-              self.pos = pos
-              self.radius = radius
-      </code></pre>
-      <p>Keep in mind that we will add more variables and functions to this class in the future when necessary.</p>
-      <p>The first function that we will add to the circle class is the draw function to visualize the collider. The class should now look like this:</p>
-      <pre><code>
-        class circleCollider:
-          ~def __init__(self, pos, radius):
-              self.pos = pos
-              self.radius = radius
-
-          def draw(self):
-            circle(self.pos.x, self.pos.y, self.radius)
-      </code></pre>
-      <p>C is the distance between the first and second circle and A and B are the difference
-         between the X and Y coordinates of the two circles. To solve for C we just take the square root of both sides and get this equation:
-      </p>
-      <pre><code>
-        sqrt(a^2 + b^2) = c
-      </code></pre>
-      <p>Using the Pythagorean Theorem, we can compare the distance to the sum of the two radii and if it is less than of equal to that, then
-        there is a collision. To turn this into a usable function, we would do something like this:</p>
-      <pre><code>
-        def circleCircle(c1x, c1y, r1, c2x, c2y, r2):
-          # Difference between circle coords
-          dx = c1x - c2x
-          dy = c1y - c2y
-
-          # Return the truth value of
-          # distance <= sum of radii
-          return sqrt(dx**2 + dy**2) <= r1 + r2
-      </code></pre>
-      <p>The bit of shorthand after the return statement just returns the truth value of <code>distance <= sum of radii</code> and makes the code much more readable than if we used an <code>if-else statement</code>.
-      </p>
-      <p>
-        We can now use this function to change the color of the center circle when the two circles collide, giving us our final code:
-      </p>
-      <pre><code>
-        # Circle coords and radii
-        c1x, c1y, r1 = 0, 0, 20
-        c2x, c2y, r2 = 300, 200, 100
-
-        def circleCircle(c1x, c1y, r1, c2x, c2y, r2):
-          # Difference between circle coords
-          dx = c1x - c2x
-          dy = c1y - c2y
-
-          # Return the truth value of
-          # distance <= sum of radii
-          return sqrt(dx**2 + dy**2) <= r1 + r2
-
-        def setup():
-            size(600, 400)
-            # Fix pixelated screen
-            pixelDensity(displayDensity())
-            
-            strokeWeight(2)
-            
-        def draw():
-            background(200, 220, 230)
-            
-            # Set circle's position to mouse position
-            c1x, c1y = mouseX, mouseY
-            
-            # Change color if circles collide
-            ~if circleCircle(c1x, c1y, r1, c2x, c2y, r2):
-                fill(250, 200, 90)
-            else:
-                fill(230, 240, 225)
-            
-            `# Draw circles
-            circle(c2x, c2y, r2 * 2)
-            fill(50, 150)
-            circle(c1x, c1y, r1 * 2)
-      </code></pre>
-    </div>
+    <script src="circleImpulse3.js"></script>
+    <body onresize="windowResized()" onload="enable(0)">
+        <div id="menuBar">
+            <div id="iconHold">
+                <image id="icon" src="icon.png"></image>
+                <div>Hammond Kai</div>
+            </div>
+            <div id="buttons">
+                <button>Lessons</button>
+                <button>Projects</button>
+                <button>About Me</button>
+            </div>
+        </div>
+    </body>
     <script src="main.js"></script>
-  </body>
 </html>

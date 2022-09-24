@@ -3,6 +3,14 @@ for (i = 0; i < canvas_dom.length; i++){
     canvas_dom[i].addEventListener("touchmove",   function(event) {event.preventDefault()})
     canvas_dom[i].addEventListener("touchcancel", function(event) {event.preventDefault()})
 }
+document.getElementById("tableButton").onclick = function(){
+    if (document.getElementById("tableContents").style.display == "block"){
+        document.getElementById("tableContents").style.display = "none";
+    } else{
+        document.getElementById("tableContents").style.display = "block";
+    }
+};
+
 const codeBlocks = document.body.getElementsByTagName("code");
 const txts = [["from", "import", "self", "def", "class", "displayDensity", "in", "range"],
              ["if", "elif", "else", "return", "for"], 

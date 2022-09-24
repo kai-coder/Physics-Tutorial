@@ -32,6 +32,12 @@ function circle(s, pos, r){
     s.circle(pos.x, pos.y, r * 2);
 }
 
+function rect(s, pos, size){
+    pos = p5.Vector.mult(pos, s.height / 400)
+    size = p5.Vector.mult(size, s.height / 400)
+    s.rect(pos.x, pos.y, size.x, size.y);
+}
+
 function txt(s, txt, pos){
     pos = p5.Vector.mult(pos, s.height / 400);
     s.text(txt, pos.x, pos.y);

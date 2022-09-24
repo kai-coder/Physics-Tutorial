@@ -8,22 +8,22 @@
     <link href="main.css" rel="stylesheet" type="text/css" />
     <title>Physics Engine Tutorial</title>
   </head>
-    <script src="p5.min.js"></script>
+  <script src="p5.min.js"></script>
     <script src="resizeFunct.js"></script>
     <script src="drawFuncts.js"></script>
     <script src="circleObject.js"></script>
-  <script src="circle.js"></script>
+  <script src="intro.js"></script>
   <body onresize="windowResized()" onload="enable(0)">
     <div id = "contentContainer">
       <header>
-        <span id="back"><a href="intro.html">←</a></span>
-        <span id="title"><a href="">CH.1 CIRCLES</a></span>
-        <span id="next"><a href="circleClass.html">→</a></span>
+        <span id="back"><a href="">←</a></span>
+        <span id="title"><a href="">INTRO</a></span>
+        <span id="next"><a href="circle.html">→</a></span>
       </header>
       <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
       <figcaption>Use your mouse or finger to interact</figcaption>
-      <h1>CIRCLES</h1>
-      <p>Classes are essential in keeping the code of the physics engine short and readable. Without them we will have to resort to creating many variables which will quickly clutter the code.
+      <h1>INTRO</h1>
+      <p>In this tutorial, we will cover everything you need to know to create a working physics engine. Physics engines are essential for practically everything that occurs online.
       </p>
       <p>To begin, we will have the circle class store the circle's position and radius like so:</p>
       <pre><code>
@@ -49,7 +49,7 @@
       <pre><code>
         sqrt(a^2 + b^2) = c
       </code></pre>
-      <p>We would then compare this distance to the sum of the two radii and if it is less than of equal to that, then
+      <p>Using the Pythagorean Theorem, we can compare the distance to the sum of the two radii and if it is less than of equal to that, then
         there is a collision. To turn this into a usable function, we would do something like this:</p>
       <pre><code>
         def circleCircle(c1x, c1y, r1, c2x, c2y, r2):

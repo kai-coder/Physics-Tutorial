@@ -103,7 +103,7 @@ class circleCollider{
         this.numy = 0;
     }
     draw(s){
-        circle(s, this.pos, this.radius)
+        circle(s, this.pos, this.radius - s.height / 400)
     }
 }
 
