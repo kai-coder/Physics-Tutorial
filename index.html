@@ -8,23 +8,49 @@
         <link href="index.css" rel="stylesheet" type="text/css" />
         <title>Physics Engine Tutorial</title>
     </head>
-    <script src="p5.min.js"></script>
-    <script src="resizeFunct.js"></script>
-    <script src="drawFuncts.js"></script>
-    <script src="circleObject.js"></script>
-    <script src="circleImpulse3.js"></script>
     <body onresize="windowResized()" onload="enable(0)">
         <div id="menuBar">
             <div id="iconHold">
-                <image id="icon" src="icon.png"></image>
+                <a href="index.html"><button><image id="icon" src="icon.png"></image>
                 <div>Hammond Kai</div>
+                </button></a>
             </div>
             <div id="buttons">
-                <button>Lessons</button>
+                <button class="selectedBtn">Lessons</button>
                 <button>Projects</button>
                 <button>About Me</button>
             </div>
+            </div>
+        </div>
+        <div id="holder">
+            <div id="Lessons">
+                <a href="intro.html"><img src="physics.png"></a>
+            </div>
+            <div id="Projects">
+
+            </div>
+            <div id="About">
+            </div>
         </div>
     </body>
-    <script src="main.js"></script>
+    <script>
+        btns = document.getElementById("buttons").getElementsByTagName("button");
+        divs = document.getElementById("holder").getElementsByTagName("div");
+        const StoreI = 0;
+        for (let i = 0; i < btns.length; i++){
+            btns[i].onclick = function(){
+                const thisI = i
+                console.log(thisI)
+                for (j = 0; j < btns.length; j++){
+                    btns[j].classList.remove("selectedBtn")
+                }
+                this.classList.add("selectedBtn")
+                for (j = 0; j < divs.length; j++){
+                    divs[j].style.display="none";
+                }
+                divs[thisI].style.display="grid";
+                
+            }
+        }
+    </script>
 </html>

@@ -333,12 +333,13 @@ button:hover{
     background-color: white;
     font-size: 2em;
     width: calc((100% - 800px) / 2);
-    height: 2em;
+    height: 2.1em;
     position: fixed;
     top: 0;
     left: 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     z-index: 200;
 }
 #tableContents span a:nth-of-type(even) button{
@@ -355,6 +356,22 @@ button:hover{
 }
 #iconHold div{
     float: left;
+}
+#iconHold a{
+    height: 100%;
+}
+#iconHold button{
+    justify-content: center;
+    background-color: white;
+    height: 100%;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    color: black !important;
+}
+#iconHold button:hover{
+    cursor:pointer;
 }
 #tableContents::-webkit-scrollbar{
     width: 16px;
