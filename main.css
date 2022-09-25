@@ -277,6 +277,7 @@ p code{
 #tableButton{
     border: 2px solid black;
     font-size: 1.5em;
+    color:black;
     font-weight: bold;
     float: left;
     width: calc((100% - 800px) / 2);
@@ -303,6 +304,7 @@ p code{
     max-height: calc(100% - 150px);
 }
 #tableContents button{
+    color:black;
     border: 2px solid black;
     font-size: 20px;
     background-color: rgb(47, 119, 157);
@@ -318,7 +320,7 @@ p code{
     font-size: 1em;
 }
 button:hover{
-    color: #FF9F1C;
+    color: #FF9F1C!important;
 }
 .tableInside{
     position: static;
@@ -359,8 +361,10 @@ button:hover{
 }
 #iconHold a{
     height: 100%;
+    width: 8em;
 }
 #iconHold button{
+    width: 100%;
     justify-content: center;
     background-color: white;
     height: 100%;
@@ -410,6 +414,9 @@ button:hover{
         position: fixed;
         justify-content: center;
         align-items: center;
+    }
+    #iconHold a{
+        width: 8.7em;
     }
     #icon{
         height: 50px;

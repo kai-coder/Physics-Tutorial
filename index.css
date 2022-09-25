@@ -33,6 +33,7 @@ body, html{
     box-shadow: 2px 0 10px rgb(50, 50, 50);
 }
 #iconHold button{
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,6 +44,10 @@ body, html{
 }
 #iconHold button:hover{
     cursor: pointer;
+}
+#iconHold a{
+    width: 8em;
+    text-decoration: none !important;
 }
 #iconHold button div{
     float: left;
@@ -99,6 +104,10 @@ body, html{
     #iconHold button{
         width: 100%;
     }
+    #iconHold a{
+        width: 100%;
+        height: 100%;
+    }
     #menuBar{
         height: 64px;
         width: 100%;
@@ -146,8 +155,9 @@ body, html{
 }
 
 @media only screen and (max-width: 850px) {
-    #iconHold button{
-        width: auto;
+    #iconHold a{
+        width: 8.7em;
+        height: 100%;
     }
     #menuBar{
         box-shadow: none;
