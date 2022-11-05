@@ -275,9 +275,9 @@ p code{
 }
 
 #tableButton{
+    color:black;
     border: 2px solid black;
     font-size: 1.5em;
-    color:black;
     font-weight: bold;
     float: left;
     width: calc((100% - 800px) / 2);
@@ -364,6 +364,7 @@ button:hover{
     width: 8em;
 }
 #iconHold button{
+    padding: 0px;
     width: 100%;
     justify-content: center;
     background-color: white;

@@ -1,110 +1,59 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
-    <link href="main.css" rel="stylesheet" type="text/css" />
-    <title>Physics Engine Tutorial</title>
-  </head>
+    <head>
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon_package_v0.16/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon_package_v0.16/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon_package_v0.16/favicon-16x16.png">
+        <link rel="manifest" href="favicon_package_v0.16/site.webmanifest">
+        <link rel="mask-icon" href="favicon_package_v0.16/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="favicon_package_v0.16/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="favicon_package_v0.16/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <meta charset="utf-8">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <title>Physics Engine Tutorial</title>
+    </head>
     <script src="p5.min.js"></script>
     <script src="resizeFunct.js"></script>
     <script src="drawFuncts.js"></script>
     <script src="circleObject.js"></script>
-  <script src="circle.js"></script>
-  <body onresize="windowResized()" onload="enable(0)">
-    <div id = "contentContainer">
-      <header>
-        <span id="back"><a href="intro.html">←</a></span>
-        <span id="title"><a href="">CH.1 CIRCLES</a></span>
-        <span id="next"><a href="circleClass.html">→</a></span>
-      </header>
-      <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
-      <figcaption>Use your mouse or finger to interact</figcaption>
-      <h1>CIRCLES</h1>
-      <p>Classes are essential in keeping the code of the physics engine short and readable. Without them we will have to resort to creating many variables which will quickly clutter the code.
-      </p>
-      <p>To begin, we will have the circle class store the circle's position and radius like so:</p>
-      <pre><code>
-        class circleCollider:
-          ~def __init__(self, pos, r):
-              self.pos = pos
-              self.r = r
-      </code></pre>
-      <p>Keep in mind that we will add more variables and functions to this class in the future when necessary.</p>
-      <p>The first function that we will add to the circle class is the draw function to visualize the collider. The class should now look like this:</p>
-      <pre><code>
-        class circleCollider:
-          ~def __init__(self, pos, r):
-              self.pos = pos
-              self.r = r
+    <script src="circleImpulse4.js"></script>
+    <body onresize="windowResized()" onload="enable(0)">
+        <div id = "contentContainer">
+            <div id="iconHold">
+                <a href="index.html"><button>
+                <image id="icon" src="icon.png"></image>
+                <div>Hammond Kai</div>
+                </button></a>
+            </div>
+            <button id="tableButton">≡ TABLE OF CONTENTS</button>
+            <div id="tableContents">
+                <a href="intro.html"><button>Intro</button></a>
+                <a href="circle.html"><button>Circles</button></a>
+                <span>
+                    <a href="circleClass.html"><button>Class</button></a>
+                    <a href="circleDetection.html"><button>Detection</button></a>
+                    <a href="circleImpulse.html"><button>Response Pt.1</button></a>
+                    <a href="circleImpulse2.html"><button>Response Pt.2</button></a>
+                    <a href="circleImpulse3.html"><button>Response Pt.3</button></a>
+                    <a href="circleImpulse4.html"><button>Response Pt.4</button></a>
+                </span>
+            </div>
+            <header>
+                <span id="back"><a href="intro.html">←</a></span>
+                <span id="title"><a href="">CH.1 CIRCLES</a></span>
+                <span id="next"><a href="circleClass.html">→</a></span>
+            </header>
 
-          def draw(self):
-            circle(self.pos.x, self.pos.y, self.r)
-      </code></pre>
-      <p>C is the distance between the first and second circle and A and B are the difference
-         between the X and Y coordinates of the two circles. To solve for C we just take the square root of both sides and get this equation:
-      </p>
-      <pre><code>
-        sqrt(a^2 + b^2) = c
-      </code></pre>
-      <p>We would then compare this distance to the sum of the two radii and if it is less than of equal to that, then
-        there is a collision. To turn this into a usable function, we would do something like this:</p>
-      <pre><code>
-        def circleCircle(c1x, c1y, r1, c2x, c2y, r2):
-          # Difference between circle coords
-          dx = c1x - c2x
-          dy = c1y - c2y
-
-          # Return the truth value of
-          # distance <= sum of radii
-          return sqrt(dx**2 + dy**2) <= r1 + r2
-      </code></pre>
-      <p>The bit of shorthand after the return statement just returns the truth value of <code>distance <= sum of radii</code> and makes the code much more readable than if we used an <code>if-else statement</code>.
-      </p>
-      <p>
-        We can now use this function to change the color of the center circle when the two circles collide, giving us our final code:
-      </p>
-      <pre><code>
-        # Circle coords and radii
-        c1x, c1y, r1 = 0, 0, 20
-        c2x, c2y, r2 = 300, 200, 100
-
-        def circleCircle(c1x, c1y, r1, c2x, c2y, r2):
-          # Difference between circle coords
-          dx = c1x - c2x
-          dy = c1y - c2y
-
-          # Return the truth value of
-          # distance <= sum of radii
-          return sqrt(dx**2 + dy**2) <= r1 + r2
-
-        def setup():
-            size(600, 400)
-            # Fix pixelated screen
-            pixelDensity(displayDensity())
-            
-            strokeWeight(2)
-            
-        def draw():
-            background(200, 220, 230)
-            
-            # Set circle's position to mouse position
-            c1x, c1y = mouseX, mouseY
-            
-            # Change color if circles collide
-            ~if circleCircle(c1x, c1y, r1, c2x, c2y, r2):
-                fill(250, 200, 90)
-            else:
-                fill(230, 240, 225)
-            
-            `# Draw circles
-            circle(c2x, c2y, r2 * 2)
-            fill(50, 150)
-            circle(c1x, c1y, r1 * 2)
-      </code></pre>
-    </div>
+            <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
+    
+            <figcaption>Click or tap to interact</figcaption>
+            <h1>CIRCLES</h1>
+            <p>This section is coming soon</p>
+    </body>
     <script src="main.js"></script>
-  </body>
 </html>

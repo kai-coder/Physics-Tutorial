@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon_package_v0.16/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon_package_v0.16/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon_package_v0.16/favicon-16x16.png">
+        <link rel="manifest" href="favicon_package_v0.16/site.webmanifest">
+        <link rel="mask-icon" href="favicon_package_v0.16/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="favicon_package_v0.16/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="favicon_package_v0.16/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
         <meta charset="utf-8">
         <meta
         name="viewport"
@@ -24,7 +33,10 @@
         </div>
         <div id="holder">
             <div id="Lessons">
-                <a href="intro.html"><img src="physics.png"></a>
+                <a href="intro.html">
+                    <div>Physics<br> Engine<br> Tutorial</div>
+                    <img src="physics.png">
+                </a>
             </div>
             <div id="Projects">
 
@@ -35,7 +47,7 @@
     </body>
     <script>
         btns = document.getElementById("buttons").getElementsByTagName("button");
-        divs = document.getElementById("holder").getElementsByTagName("div");
+        divs = document.getElementById("holder").children;
         const StoreI = 0;
         for (let i = 0; i < btns.length; i++){
             btns[i].onclick = function(){
