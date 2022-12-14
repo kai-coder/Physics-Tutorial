@@ -127,9 +127,10 @@ function manImpulse(s, manifold){
     }
     e = (b.e + b2.e) / 2
     j = -(1 + e) * velNormal
+    j /= ms
     imp = p5.Vector.mult(manifold.norm, j)
-    b.vel.sub(p5.Vector.mult(imp, b.mass/ms))
-    b2.vel.add(p5.Vector.mult(imp, b2.mass/ms))
+    b.vel.sub(p5.Vector.mult(imp, b.mass))
+    b2.vel.add(p5.Vector.mult(imp, b2.mass))
 }
 
 sketches.push(new p5(function( s ) {
