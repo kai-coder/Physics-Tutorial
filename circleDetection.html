@@ -15,6 +15,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
         <link href="main.css" rel="stylesheet" type="text/css" />
+        <link href="codeStyle.css" rel="stylesheet" type="text/css" />
         <title>Physics Engine Tutorial</title>
     </head>
     <script src="p5.min.js"></script>
@@ -23,31 +24,34 @@
     <script src="circleObject.js"></script>
     <script src="circleDetection.js"></script>
     <body onresize="windowResized()" onload="enable(0)">
-        <div id = "contentContainer">
-            <div id="iconHold">
-                <a href="index.html"><button>
-                <image id="icon" src="icon.png"></image>
-                <div>Hammond Kai</div>
-                </button></a>
-            </div>
-            <button id="tableButton">≡ TABLE OF CONTENTS</button>
-            <div id="tableContents">
-                <a href="intro.html"><button>Intro</button></a>
-                <a href="circle.html"><button>Circles</button></a>
-                <span>
-                    <a href="circleClass.html"><button>Class</button></a>
-                    <a href="circleDetection.html"><button>Detection</button></a>
-                    <a href="circleImpulse.html"><button>Response Pt.1</button></a>
-                    <a href="circleImpulse2.html"><button>Response Pt.2</button></a>
-                    <a href="circleImpulse3.html"><button>Response Pt.3</button></a>
-                    <a href="circleImpulse4.html"><button>Response Pt.4</button></a>
-                </span>
-            </div>
-            <header>
-                <span id="back"><a href="circleClass.html">←</a></span>
-                <span id="title"><a href="">CH.1 CIRCLES</a></span>
-                <span id="next"><a href="circleImpulse.html">→</a></span>
-            </header>
+        <header>
+                <div id="iconHold">
+                        <a href="index.html">
+                                <image id="icon" src="icon.png"></image>
+                                <div>Hammond Kai</div>
+                        </a>
+                </div>
+                <button id="tableButton">≡ TABLE OF CONTENTS</button>
+                <div id="tableContents">
+                        <span class="parents">
+                                <a href="intro.html">Intro</a>
+                                <a href="circle.html">Circles</a>
+                        </span>
+                        <span class="children">
+                                <a href="circleClass.html">Class</a>
+                                <a href="circleDetection.html">Detection</a>
+                                <a href="circleImpulse.html">Response Pt.1</a>
+                                <a href="circleImpulse2.html">Response Pt.2</a>
+                                <a href="circleImpulse3.html">Response Pt.3</a>
+                                <a href="circleImpulse4.html">Response Pt.4</a>
+                        </span>
+                </div>
+        </header>
+        <div id="navigation">
+                <a id="back" href="circleClass.html"><div>←</div></a></span>
+                <a id="title" href="circle.html"><div>CH.1 CIRCLES</div></a>
+                <a id="next" href="circleImpulse.html"><div>→</div></a>
+        </div>
 
             <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
 

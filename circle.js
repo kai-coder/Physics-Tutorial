@@ -1,136 +1,135 @@
 class body{
-    constructor(s, pos, shapes, torque, mass, g, e, r=5, color=[255, 255, 255], label="gameObject"){
-        this.label = label;
-        this.s = s
-        this.pos = pos
-        this.shapes = shapes
-        this.torque = torque
-        if (mass == 0){
-            this.mass = 0
-        }else{
-            this.mass = 1 / mass
+        constructor(s, pos, shapes, torque, mass, g, e, r=5, color=[255, 255, 255], label="gameObject"){
+                this.label = label;
+                this.s = s
+                this.pos = pos
+                this.shapes = shapes
+                if (mass == 0){
+                        this.mass = 0
+                }else{
+                        this.mass = 1 / mass
+                }
+                this.vel = this.s.createVector(0, 0)
+                this.f = this.s.createVector(0, 0)
+                this.g = g
+                this.e = e
+                this.r = r
+                this.color = color
         }
-        this.vel = this.s.createVector(0, 0)
-        this.f = this.s.createVector(0, 0)
-        this.g = g
-        this.e = e
-        this.r = r
-        this.color = color
-    }
-    update(dt){
-        this.pos.add(p5.Vector.mult(this.vel, dt))
-        for (let i = 0; i <  this.shapes.length; i++){
-            this.shapes[i].update(this.pos, this.r)
+        update(dt){
+                this.pos.add(p5.Vector.mult(this.vel, dt))
+                for (let i = 0; i <  this.shapes.length; i++){
+                        this.shapes[i].update(this.pos, this.r)
+                }
+                this.f.add(this.g)
+                this.vel.add(this.f.mult(dt))
+                this.f.set(0, 0)
         }
-        this.f.add(this.g)
-        this.vel.add(this.f.mult(dt))
-        this.f.set(0, 0)
-    }
-    draw(s){
-        s.fill(this.color[0], this.color[1], this.color[2])
-        circle(s, this.pos, this.r - s.height / 400)
-    }
+        draw(s){
+                s.fill(this.color[0], this.color[1], this.color[2])
+                circle(s, this.pos, this.r - s.height / 400)
+        }
 }
 
 class AABB{
-    constructor(min, max){
-        this.min = min
-        this.max = max
-    }
+        constructor(min, max){
+                this.min = min
+                this.max = max
+        }
 }
 
 class Manifold{
-    constructor(A, B, body, body2){
-        this.A = A
-        this.B = B
-        this.body = body
-        this.body2 = body2
-        this.pen = 0
-        this.norm = 0
-    }
+        constructor(A, B, body, body2){
+                this.A = A
+                this.B = B
+                this.body = body
+                this.body2 = body2
+                this.pen = 0
+                this.norm = 0
+        }
 }
 
 class Circle{
-    constructor(s, offset, scale) {
-        this.s = s;
-        this.pos = this.s.createVector(0, 0);
-        this.offset = offset;
-        this.r = 0;
-        this.scale = scale;
-        this.AABB = new AABB(this.s.createVector(this.pos.x - this.r, this.pos.y - this.r), 
-                             this.s.createVector(this.pos.x + this.r, this.pos.y + this.r));
-    }
+        constructor(s, offset, scale) {
+                this.s = s;
+                this.pos = this.s.createVector(0, 0);
+                this.offset = offset;
+                this.r = 0;
+                this.scale = scale;
+                this.AABB = new AABB(this.s.createVector(this.pos.x - this.r, this.pos.y - this.r), 
+                                this.s.createVector(this.pos.x + this.r, this.pos.y + this.r));
+        }
 
-    update(pos, r){
-        this.pos = p5.Vector.add(pos, this.offset);
-        this.r = r * this.scale;
-        this.AABB = new AABB(this.s.createVector(this.pos.x - this.r, this.pos.y - this.r), 
-                             this.s.createVector(this.pos.x + this.r, this.pos.y + this.r));
-    }
+        update(pos, r){
+                this.pos = p5.Vector.add(pos, this.offset);
+                this.r = r * this.scale;
+                this.AABB = new AABB(this.s.createVector(this.pos.x - this.r, this.pos.y - this.r), 
+                                this.s.createVector(this.pos.x + this.r, this.pos.y + this.r));
+        }
 }
 
 function AABBvsAABB(a, b){
-    if (a.max.x < b.min.x || a.min.x > b.max.x){
-        return false
-    }
-    if (a.max.y < b.min.y || a.min.y > b.max.y){ 
-        return false
-    }
-    
-    return true
+        if (a.max.x < b.min.x || a.min.x > b.max.x){
+                return false
+        }
+        if (a.max.y < b.min.y || a.min.y > b.max.y){ 
+                return false
+        }
+        
+        return true
 }
 
 function circleManifold(s, manifold){
-    a = manifold.A 
-    b = manifold.B
-    n = p5.Vector.sub(b.pos, a.pos)
-    r = a.r + b.r
-    if (p5.Vector.dot(n, n) > r * r){
-        return false
-    }
-    d = n.mag()
-    if (d!=0){
-        manifold.pen = r - d
-        manifold.norm = n.div(d)
-        return true
-    }else{
-        manifold.pen = r
-        a = s.random(0, 2 * s.PI)
-        manifold.norm = s.createVector(s.cos(a), s.sin(a))
-        return true
-    }
+        a = manifold.A 
+        b = manifold.B
+        n = p5.Vector.sub(b.pos, a.pos)
+        r = a.r + b.r
+        if (p5.Vector.dot(n, n) > r * r){
+                return false
+        }
+        d = n.mag()
+        if (d!=0){
+                manifold.pen = r - d
+                manifold.norm = n.div(d)
+                return true
+        }else{
+                manifold.pen = r
+                a = s.random(0, 2 * s.PI)
+                manifold.norm = s.createVector(s.cos(a), s.sin(a))
+                return true
+        }
 }
 
 function PositionalCorrection(s, manifold){
-    pen = manifold.pen
-    n = manifold.norm
-    b = manifold.body
-    b2 = manifold.body2
-    percent = 0.8
-    slop = 0.01
-    correction = p5.Vector.mult(n, s.max(pen - slop, 0.0) / (b.mass + b2.mass) * percent)
-    b.pos.sub(p5.Vector.mult(correction, b.mass))
-    b2.pos.add(p5.Vector.mult(correction, b2.mass))
+        pen = manifold.pen
+        n = manifold.norm
+        b = manifold.body
+        b2 = manifold.body2
+        percent = 0.8
+        slop = 0.01
+        correction = p5.Vector.mult(n, s.max(pen - slop, 0.0) / (b.mass + b2.mass) * percent)
+        b.pos.sub(p5.Vector.mult(correction, b.mass))
+        b2.pos.add(p5.Vector.mult(correction, b2.mass))
 }
 
 function manImpulse(s, manifold){
-    b = manifold.body
-    b2 = manifold.body2
-    ms = b.mass + b2.mass
-    if (ms == 0){ 
-        return
-    }
-    vel = p5.Vector.sub(b2.vel, b.vel)
-    velNormal = p5.Vector.dot(vel, manifold.norm)
-    if (velNormal > 0){ 
-        return
-    }
-    e = (b.e + b2.e) / 2
-    j = -(1 + e) * velNormal
-    j /= ms
-    imp = p5.Vector.mult(manifold.norm, j)
-    b.vel.sub(p5.Vector.mult(imp, b.mass))
-    b2.vel.add(p5.Vector.mult(imp, b2.mass))
+        b = manifold.body
+        b2 = manifold.body2
+        ms = b.mass + b2.mass
+        if (ms == 0){ 
+                return
+        }
+        vel = p5.Vector.sub(b2.vel, b.vel)
+        velNormal = p5.Vector.dot(vel, manifold.norm)
+        if (velNormal > 0){ 
+                return
+        }
+        e = s.min(b.e, b2.e)
+        j = -(1 + e) * velNormal
+        j /= ms
+        imp = p5.Vector.mult(manifold.norm, j)
+        b.vel.sub(p5.Vector.mult(imp, b.mass))
+        b2.vel.add(p5.Vector.mult(imp, b2.mass))
 }
 
 sketches.push(new p5(function( s ) {

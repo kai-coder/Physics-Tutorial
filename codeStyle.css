@@ -1,0 +1,38 @@
+.style1{
+        color: #00A3A3;
+}
+
+.style2{
+        color: #43B929;
+}
+
+.style3{
+        color: #FF9F1C;
+}
+
+.style4{
+        color: #3A94C3;
+}
+
+.style5{
+        color: #2F779D;
+        font-weight: bold;
+}
+
+.style6{
+        color: #DD69DD;
+}
+
+.comment{
+        color: #7F7F7F;
+}
+
+.int{
+        color: #4e5bee;
+}
+
+.intUp{
+        color: #4e5bee;
+        vertical-align: super;
+        font-size: smaller;
+}
