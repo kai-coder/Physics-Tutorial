@@ -60,21 +60,25 @@
             <p>The most important part of a physics engine is the ability to detect collisions. Without this, the physics
                 engine won't know when to execute certain functions and will just not work.
             </p>
+            <p>To begin, lets create a <code>circleCollider</code> class that will be used to detect collisions. It will 
+        store its position</p>
+            <pre><code>class circleCollider{
+        constructor(offset, scale){
+                this.pos = createVector(0, 0)
+                this.offset = offset
+                this.scale = scale
+                this.r;
+                this.AABB = new AABB()
+        }
+                
+        update(pos, r){
+                this.pos = p5.Vector.add(pos, this.offset)
+                this.r = r * this.scale
+                updateAABB(this.AABB, this.pos, this.r)
+        }
+}</code></pre>
             <p>To detect collisions between the circles, we will be using the Pythagorean Theorem.</p>
 
-            <div class="explainContent">
-                <h2>Pythagorean Theorem</h2>
-                <div id="sketch1" class="sketch" ontouchstart="enable(1)" onmousemove="enable(1)"></div>
-                <p>The Pythagorean Theorem is used to find the length of the hypotenuse, the slanted side, of a right triangle which
-                makes it perfect for finding the distance between two points. The Pythagorean Theorem states the following:</p>
-                <pre><code>a^2 + b^2 = c^2</code></pre>
-                <p>The variables <code>a</code> and <code>b</code> represent the difference
-                between the X and Y coordinates of two points and the variable <code>c</code> represents the length of the hypotenuse.</p>
-                <p>To solve for <code>c</code> we just take the square root of both sides and get this equation:</p>
-                <pre><code>sqrt(a^2 + b^2) = c</code></pre>
-                <p>Go to <a href="https://www.mathsisfun.com/pythagoras.html" target="_blank">Pythagoras' Theorem</a> for
-                further explanation and proof.</p>
-            </div>
 
             <p>Using the Pythagorean Theorem, we can determine the distance between the two circles or any two points.
                 To turn the equation into a usable function, we would do something like this:</p>

@@ -26,8 +26,12 @@ class body{
                 this.f.set(0, 0)
         }
         draw(s){
+                s.stroke(0)
                 s.fill(this.color[0], this.color[1], this.color[2])
                 circle(s, this.pos, this.r - s.height / 400)
+                for (let i = 0; i <  this.shapes.length; i++){
+                        //this.shapes[i].draw(s)
+                }
         }
 }
 
@@ -65,6 +69,12 @@ class Circle{
                 this.r = r * this.scale;
                 this.AABB = new AABB(this.s.createVector(this.pos.x - this.r, this.pos.y - this.r), 
                                 this.s.createVector(this.pos.x + this.r, this.pos.y + this.r));
+        }
+        
+        draw(s){
+                s.stroke(0, 255, 0)
+                s.noFill()
+                circle(s, this.pos, this.r - s.height / 400)
         }
 }
 
@@ -136,11 +146,11 @@ sketches.push(new p5(function( s ) {
     var circles = []
     for (let i = 0; i < 10; i++){
         var pos = s.createVector(s.random(0, 800), -s.random(0, 100));
-        var gravity = s.createVector(0, 9.8);
+        var gravity = s.createVector(0, 9.8 * 100);
         var collider = new Circle(s, s.createVector(0, 0), 1)
         color = [245, 190, 185]
         b = new body(s, pos, [collider], 0, 1, gravity, 0.5, 7, color, "break2")
-        b.vel.set(s.random(-50, 50), s.random(-50, 50));
+        b.vel.set(s.random(-50, 50), s.random(-50, 50))
         circles.push(b)
     }
     for (let o = 0; o < 2; o++){
@@ -178,7 +188,8 @@ sketches.push(new p5(function( s ) {
             circles.push(new body(s, pos, [collider], 0, 0, gravity, 0.5, 10, color, label))
         }
     }
-    var fps = 180;
+    var numCheck = 20
+    var fps = 60 * numCheck;
     var dt = 1 / fps;
     var acc = 0;
     var fs = new Date().getTime()
@@ -191,11 +202,11 @@ sketches.push(new p5(function( s ) {
     }
     s.draw = function() {
         //console.log((new Date().getTime() - fs) / 1000)
-        ct = new Date().getTime()
-        acc += ct - fs
+        ct = Date.now()
+        acc += (ct - fs) / 1000
         fs = ct
-        if (acc > 0.2){
-            acc = 0.2
+        if (acc / dt > 40){
+            acc = dt * 40
         }
         while(acc > dt){
             var manifolds = []

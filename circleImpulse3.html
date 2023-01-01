@@ -109,46 +109,6 @@ vy = self.vely - c2.vely</code></pre>
                 to take the vector of the difference between the velocities and see how much of it is
                 in the direction of the position normal.
             </p>
-            <div class="explainContent">
-                <h2>Dot Product</h2>
-                <div id="sketch1" class="sketch" ontouchstart="enable(1)" onmousemove="enable(1)"></div>
-                <p>The dot product is used to see how much of a vector is in the direction of another vector 
-                    (known as the scalar product) and its just one simple equation:</p>
-                <pre><code>a.x * b.x + a.y * b.y = |a| * |b| * cos(θ)</code></pre>
-                <p>I know that looks quite scary, so let's break it down. The symbol <code>θ</code> is just the angle between the two
-                    vectors. Also, <code>|a|</code> just means the length of vector <code>a</code> (if you thought it was absolute value you're not 
-                    alone).
-                </p>
-                <p>So how does this equation tell us the information we need?</p>
-                <p>Before we get into that, let's substitute <code>a</code> for the difference between the
-                    velocities (shown in dark purple) and <code>b</code> as the direction of the 
-                    collision normal (the short yellow vector). Because vector <code>b</code>
-                    is normalized, meaning it has the length of 1, we can just remove <code>|b|</code> 
-                    from the right side of the equation because it has absolutely no effect on the product. 
-                    So now the equation looks more like this:
-                </p>
-                <pre><code>a.x * b.x + a.y * b.y = |a| * cos(θ)</code></pre>
-                <p>If you look at the demonstration, you can see that if we drew a line between the dot product 
-                    and the velocity difference, it forms a right triangle. You will also notice that the
-                    velocity difference is the hypotenuse of that right triangle. 
-                </p>
-                <p>For those who don't know <code>cos(θ)</code> in a right triangle equals the length of the
-                   side (that is not the hypotenuse) next to the angle <code>θ</code>, known as adjacent, 
-                   divided by the length of the hypotenuse. Go to
-                   <a href="https://www.mathsisfun.com/definitions/cosine.html#:~:text=more%20...,(%CE%B8)%20%3D%20adjacent%20%2F%20hypotenuse" target="_blank">cosine rule</a>
-                   for further explanation.
-            </p>
-                <p>Now by looking at the demonstration, you can also see that the scalar product is the adjacent
-                    side of the angle <code>θ</code>. You can now probably see where this is going. Since
-                    the equation of <code>cos(θ)</code> is <code>adjacent / hypotenuse</code> or in our case
-                    <code>scalar / |a|</code>, if we multiply <code>|a|</code> by <code>cos(θ)</code>, we will
-                    get the scalar product.
-                </p>
-                <p>This scalar product is useful because when scaling (thats why
-                    scalar sounds like scale) the normal by the scalar, it results in a vector that is in the
-                    direction that we need to change the velocity in.
-                </p>
-            </div>
             <p>Okay, now we can finally get back to the code.</p>
             <p>So the next thing we will be doing is getting the dot product and multiplying it by 
                 <code>-(1 + self.bounce)</code> 

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon_package_v0.16/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon_package_v0.16/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon_package_v0.16/favicon-16x16.png">
+        <link rel="manifest" href="favicon_package_v0.16/site.webmanifest">
+        <link rel="mask-icon" href="favicon_package_v0.16/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="favicon_package_v0.16/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="favicon_package_v0.16/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <meta charset="utf-8">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <link href="codeStyle.css" rel="stylesheet" type="text/css" />
+        <title>Physics Engine Tutorial</title>
+    </head>
+    <script src="p5.min.js"></script>
+    <script src="resizeFunct.js"></script>
+    <script src="drawFuncts.js"></script>
+    <script src="circleObject.js"></script>
+    <script src="dot.js"></script>
+    <body onresize="windowResized()" onload="enable(0)">
+        <header>
+                <div id="iconHold">
+                        <a href="index.html">
+                                <image id="icon" src="icon.png"></image>
+                                <div>Hammond Kai</div>
+                        </a>
+                </div>
+                <button id="tableButton">≡ TABLE OF CONTENTS</button>
+                <div id="tableContents">
+                        <span class="parents">
+                                <a href="intro.html">Physics Engine</a>
+                        </span>
+                        <span class="children">
+                                <a href="pythag.html">Pythagorean Theorem</a>
+                                <a href="dot.html">Dot Product</a>
+                        </span>
+                </div>
+        </header>
+        <div id="navigation">
+                <a id="back" href="pythag.html"><div>←</div></a></span>
+                <a id="title" href="intro.html"><div>Physics Engine</div></a>
+                <a id="next" href="dot.html"><div>→</div></a>
+        </div>
+
+            <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
+
+            <figcaption>Use your mouse or finger to interact</figcaption>
+            <h1>Dot Product</h1>
+                <p>The dot product is used to see how much of a vector is in the direction of another vector 
+                    (known as the scalar product) and its just one simple equation:</p>
+                <pre><code>a.x * b.x + a.y * b.y = |a| * |b| * cos(θ)</code></pre>
+                <p>I know that looks quite scary, so let's break it down. The symbol <code>θ</code> is just the angle between the two
+                    vectors. Also, <code>|a|</code> just means the length of vector <code>a</code> (if you thought it was absolute value you're not 
+                    alone).
+                </p>
+                <p>So how does this equation tell us the information we need?</p>
+                <p>Before we get into that, let's substitute <code>a</code> for the difference between the
+                    velocities (shown in dark purple) and <code>b</code> as the direction of the 
+                    collision normal (the short yellow vector). Because vector <code>b</code>
+                    is normalized, meaning it has the length of 1, we can just remove <code>|b|</code> 
+                    from the right side of the equation because it has absolutely no effect on the product. 
+                    So now the equation looks more like this:
+                </p>
+                <pre><code>a.x * b.x + a.y * b.y = |a| * cos(θ)</code></pre>
+                <p>If you look at the demonstration, you can see that if we drew a line between the dot product 
+                    and the velocity difference, it forms a right triangle. You will also notice that the
+                    velocity difference is the hypotenuse of that right triangle. 
+                </p>
+                <p>For those who don't know <code>cos(θ)</code> in a right triangle equals the length of the
+                   side (that is not the hypotenuse) next to the angle <code>θ</code>, known as adjacent, 
+                   divided by the length of the hypotenuse. Go to
+                   <a href="https://www.mathsisfun.com/definitions/cosine.html#:~:text=more%20...,(%CE%B8)%20%3D%20adjacent%20%2F%20hypotenuse" target="_blank">cosine rule</a>
+                   for further explanation.
+            </p>
+                <p>Now by looking at the demonstration, you can also see that the scalar product is the adjacent
+                    side of the angle <code>θ</code>. You can now probably see where this is going. Since
+                    the equation of <code>cos(θ)</code> is <code>adjacent / hypotenuse</code> or in our case
+                    <code>scalar / |a|</code>, if we multiply <code>|a|</code> by <code>cos(θ)</code>, we will
+                    get the scalar product.
+                </p>
+                <p>This scalar product is useful because when scaling (thats why
+                    scalar sounds like scale) the normal by the scalar, it results in a vector that is in the
+                    direction that we need to change the velocity in.
+                </p>
+    </body>
+    <script src="main.js"></script>
+</html>

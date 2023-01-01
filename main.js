@@ -12,18 +12,18 @@ document.getElementById("tableButton").onclick = function(){
 };
 
 const codeBlocks = document.body.getElementsByTagName("code");
-const txts = [["from", "import", "self", "def", "class", "displayDensity", "in", "range"],
+const txts = [["from", "import", "self", "function", "class", "displayDensity", "in", "range", "this", 'new'],
              ["if", "elif", "else", "return", "for"], 
              ["PVector"], 
              ["len", "circle", "mag", "sqrt", "copy", "normalize", "strokeWeight", "add", "mult", "stroke", 
-             "background", "fill", "sub", "__init__", "pixelDensity", "set", "size", "random", "append", "dist", "cos",
-            "sin"], 
+             "background", "fill", "sub", "__init__", "pixelDensity", "set", "resizeCanvas", "random", "append", "dist", "cos",
+            "sin", "createVector"], 
              ["setup", "draw"], 
              ["mouseX", "mouseY", "height", "width"]]
 var codeBlockContents = [];
 for (i = 0; i < codeBlocks.length; i++){
-    codeBlockContents.push(codeBlocks[i].innerHTML.trim().trimEnd().replace(/[^\S\r\n]\s\s\s/g, "\t")
-    .split(/(\n|\(|\)|,|:|\.|\s|\/|~|`|-|\#|\^|\*)/g))
+    codeBlockContents.push(codeBlocks[i].innerHTML.trim().trimEnd()
+    .split(/([A-Z]\w|\n|\(|\)|:|\.|\/\/|~|`|-|\#|\^|\*)/g))
 }
 
 for (i = 0; i < codeBlockContents.length; i++){
@@ -38,26 +38,28 @@ for (i = 0; i < codeBlockContents.length; i++){
     intUp = false
     for (j = 0; j < contents.length; j++){
         char = contents[j]
+        charCheck = char
+        charCheck = charCheck.trim().trimEnd()
         var span = document.createElement('span');
-        if (char != "\n" && char != "\^") {
-        if (!isNaN(char)){
+        if (charCheck != "\n" && charCheck != "\^") {
+        if (!isNaN(charCheck)){
             if (intUp){
-            span.classList.add('intUp')
-            intUp = false
+                span.classList.add('intUp')
+                intUp = false
             }else{
-            span.classList.add('int')
+                span.classList.add('int')
             }
         }
-        if(char == ":"){
+        if(charCheck == ":"){
             inside = true
         }
-        if (char == "\t"){
+        if (charCheck == "\t"){
             char = " ".repeat(4)
         }
         if ((j == 0 || contents[j - 1].match(/[~|`|\n]/i))) {
             comment = false
         }
-        if(char == "\#"){
+        if(charCheck == "//"){
             comment = true
         }
         if (comment){
@@ -65,7 +67,7 @@ for (i = 0; i < codeBlockContents.length; i++){
         }else{
             for (k = 0; k < txts.length; k++){
             for (l = 0; l < txts[k].length; l++){
-                if (char == txts[k][l]){
+                if (charCheck == txts[k][l]){
                 span.classList.add("style" + String(k + 1));
                 }
             }
@@ -74,7 +76,7 @@ for (i = 0; i < codeBlockContents.length; i++){
         span.innerHTML += char;
         codeBlocks[i].appendChild(span);
         
-        }else if (char == "^"){
+        }else if (charCheck == "^"){
         intUp = true
         }else{
         span.innerHTML = "\n"

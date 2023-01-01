@@ -86,9 +86,9 @@ constructor(s, pos, shapes, torque, rotateHard, mass, g, e, points, color=[255, 
         this.color = color
 }
 update(dt){
+        this.pos.add(p5.Vector.mult(this.vel, dt))
         this.f.add(this.g)
         this.vel.add(this.f.mult(dt))
-        this.pos.add(p5.Vector.mult(this.vel, dt))
         this.angularVelocity += this.torque * dt
         this.orientation += this.angularVelocity * dt
         for (let i = 0; i <  this.shapes.length; i++){
@@ -206,37 +206,37 @@ class Triangle{
 }
 
 function AABBvsAABB(a, b){
-if (a.max.x < b.min.x || a.min.x > b.max.x){
-        return false
-}
-if (a.max.y < b.min.y || a.min.y > b.max.y){ 
-        return false
-}
+        if (a.max.x < b.min.x || a.min.x > b.max.x){
+                return false
+        }
+        if (a.max.y < b.min.y || a.min.y > b.max.y){ 
+                return false
+        }
 
-return true
+        return true
 }
 
 function getNorm(s, side){
-return s.createVector(-(side[0].y - side[1].y), side[0].x - side[1].x);
+        return s.createVector(-(side[0].y - side[1].y), side[0].x - side[1].x);
 }
 function farPointAlongNormalIndex(norm, points){
-var farIndex;
-let maxDist = -Infinity;
+        var farIndex;
+        let maxDist = -Infinity;
 
-for (var i = 0; i < points.length; i++){
-        let pointDist = norm.dot(points[i]);
-        if (pointDist > maxDist){
-        maxDist = pointDist;
-        farIndex = i;
+        for (var i = 0; i < points.length; i++){
+                let pointDist = norm.dot(points[i]);
+                if (pointDist > maxDist){
+                maxDist = pointDist;
+                farIndex = i;
+                }
+                
         }
-        
-}
 
-return farIndex;
+        return farIndex;
 }
 function loopIndex(array, index){
-len = array.length
-return ((index % len) + len) % len
+        len = array.length
+        return ((index % len) + len) % len
 }
 
 function farPointsAlongNormalDist(norm, points){
@@ -463,7 +463,7 @@ function PositionalCorrection(s, manifold, num){
         n = manifold.norm
         b = manifold.body
         b2 = manifold.body2
-        percent = 0.2
+        percent = 0.4
         slop = 0.05
         correction = p5.Vector.mult(n, s.max(pen - slop, 0.0) / (b.mass + b2.mass) * percent).div(num)
         b.pos.sub(p5.Vector.mult(correction, b.mass))
@@ -835,7 +835,7 @@ s.setup = function() {
         for (let i = 0; i < 14; i++){
                 //var pos = s.createVector(400 + 1 * i,  700 - i * 500);
                 var pos = s.createVector(400,  0 + i * -100);
-                var gravity = s.createVector(0, 9.8);
+                var gravity = s.createVector(0, 9.8 * 50);
                 
                 points = regPolygon(s, 1, 4)
                 points2 = [s.createVector(-2, -1.5), s.createVector(-1, -1.5), s.createVector(0, 0), s.createVector(0, 2), s.createVector(-2, 2)]
@@ -879,9 +879,6 @@ s.setup = function() {
                         poly[l].sub(tot)
                 }
                 var collider = new Circle(s, s.createVector(0, 0), 1, alphabet[q][0])
-                var collider2 = new Circle(s, s.createVector(-0, 0), 1, points)
-                var collider3 = new Circle(s, s.createVector(-0, 0), 1, points)
-                var collider4 = new Circle(s, s.createVector(-0, 0), 1, points)
                 points = rotPoly(s, regPolygon(s, 10, 4), s.PI/4)
                 
 
@@ -935,12 +932,11 @@ s.draw = function() {
         s.background(200, 220, 230);
         //console.log((new Date().getTime() - fs) / 1000)
         ct = new Date().getTime()
-        acc += ct - fs
+        acc += (ct - fs) / 1000
         fs = ct
-        if (acc > 0.2){
-        acc = 0.2
+        if (acc / dt > 40){      
+                acc = dt * 40
         }
-        
         while(acc > dt){
         var manifolds = []
         for (let i = 0; i < circles.length; i++){

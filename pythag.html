@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon_package_v0.16/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon_package_v0.16/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon_package_v0.16/favicon-16x16.png">
+        <link rel="manifest" href="favicon_package_v0.16/site.webmanifest">
+        <link rel="mask-icon" href="favicon_package_v0.16/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="favicon_package_v0.16/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="favicon_package_v0.16/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <meta charset="utf-8">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, zoom-factor=1.0, maximum-scale=1.0"/>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <link href="codeStyle.css" rel="stylesheet" type="text/css" />
+        <title>Physics Engine Tutorial</title>
+    </head>
+    <script src="p5.min.js"></script>
+    <script src="resizeFunct.js"></script>
+    <script src="drawFuncts.js"></script>
+    <script src="circleObject.js"></script>
+    <script src="pythag.js"></script>
+    <body onresize="windowResized()" onload="enable(0)">
+        <header>
+                <div id="iconHold">
+                        <a href="index.html">
+                                <image id="icon" src="icon.png"></image>
+                                <div>Hammond Kai</div>
+                        </a>
+                </div>
+                <button id="tableButton">≡ TABLE OF CONTENTS</button>
+                <div id="tableContents">
+                        <span class="parents">
+                                <a href="intro.html">Physics Engine</a>
+                        </span>
+                        <span class="children">
+                                <a href="pythag.html">Pythagorean Theorem</a>
+                                <a href="dot.html">Dot Product</a>
+                        </span>
+                </div>
+        </header>
+        <div id="navigation">
+                <a id="back" href="pythag.html"><div>←</div></a></span>
+                <a id="title" href="intro.html"><div>Physics Engine</div></a>
+                <a id="next" href="dot.html"><div>→</div></a>
+        </div>
+
+            <div id="sketch0" class="sketch" ontouchstart="enable(0)" onmousemove="enable(0)"></div>
+
+            <figcaption>Use your mouse or finger to interact</figcaption>
+            <h1>Pythagorean Theorem</h1>
+        <p>The Pythagorean Theorem is used to find the length of the hypotenuse, the slanted side, of a right triangle which
+        makes it perfect for finding the distance between two points. The Pythagorean Theorem states the following:</p>
+        <pre><code>a^2 + b^2 = c^2</code></pre>
+        <p>The variables <code>a</code> and <code>b</code> represent the difference
+        between the X and Y coordinates of two points and the variable <code>c</code> represents the length of the hypotenuse.</p>
+        <p>To solve for <code>c</code> we just take the square root of both sides and get this equation:</p>
+        <pre><code>sqrt(a^2 + b^2) = c</code></pre>
+        <p>Go to <a href="https://www.mathsisfun.com/pythagoras.html" target="_blank">Pythagoras' Theorem</a> for
+        further explanation and proof.</p>
+    </body>
+    <script src="main.js"></script>
+</html>
